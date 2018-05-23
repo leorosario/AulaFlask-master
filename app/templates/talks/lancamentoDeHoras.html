@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block page_content %}
+<table>
+    <tr>
+        <td>
+        <form>
+            <select name="projeto">
+                <option value="1">projeto1</option>
+                <option value="2">projeto2</option>
+                <option value="3">projeto3</option>
+            </select>
+            <br>
+            <label>Data/Hora inicio</label><input name="dataInicio" type="date"/> <input name="horaInicio" type="time" /><br>
+            <label>Data/Hora fim</label><input name="dataFim" type="date"/><input name="horaFim" type="time" /><br>
+            <select name="atividade">
+                <option value="1">atividade1</option>
+                <option value="2">atividade2</option>
+                <option value="3">atividade3</option>
+            </select>
+            <br>
+            <textarea name="descricao" rows="10" cols="30"> </textarea>
+            <br>
+            <input type="submit" value="Gravar" />
+        </form>
+        <table>
+            <tr>
+                <td>Editar ou...|</td>
+                <td>Data Ini...|</td>
+                <td>Hora Inic...|</td>
+                <td>Data Fim|</td>
+                <td>Hora Fim|</td>
+                <td>Total Ho...</td>
+            </tr>
+        </table>
+        </td>
+        <td>
+            <button>Iniciar</button><button>Parar</button>
+            <br>
+            <label>Tempo trabalhado: <span></span></label>
+            <br>
+            <button>Gravar</button>
+        </td>
+    </tr>
+</table>
+{% endblock %}

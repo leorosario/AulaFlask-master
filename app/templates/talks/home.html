@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block page_content %}
+<table>
+    <tr>
+        {% if current_user.admin %}    
+            <td>        
+                <h2>Cadastro</h2>            
+            </td>
+        {% endif %}
+        <td>
+            <h2>Lançamentos</h2>            
+        </td>
+        <td>
+            <h2>Relatórios</h2>            
+        </td>
+        <td>
+            <h2>Suporte</h2>            
+        </td>
+    </tr>
+    <tr>  
+        {% if current_user.admin %} 
+            <td>
+                <ul>                              
+                    <li><a href="{{ url_for('talks.cadastrarProjeto') }}">Projetos</a></li> 
+                    <li><a href="{{ url_for('talks.cadastrarCliente') }}">Clientes</a></li>  
+                    <li><a href="{{ url_for('talks.cadastrarFuncionario') }}">Funcionarios</a></li>  
+                    <li><a href="{{ url_for('talks.funcProjeto') }}">FuncionariosXProjetos</a></li>  
+                    <li><a href="{{ url_for('talks.atividades') }}">Atividades</a></li>              
+                </ul>
+            </td>  
+        {% endif %}
+        <td>
+            <ul>                
+                <li><a href="{{ url_for('talks.relatorios') }}">Hora trabalhadas</a></li>                
+            </ul>
+        </td>
+        <td>
+            <ul>                
+                <li><a href="{{ url_for('talks.relatorios') }}">Minhas horas trabalhadas</a></li>  
+                <li><a href="{{ url_for('talks.lancamentoDeHorass') }}">HorasXProjetos</a></li>              
+            </ul>
+        </td>
+        <td>
+            <ul>                
+                <li><a href="{{ url_for('talks.alterarSenha') }}">Alterar Senha</a></li>  
+                <li>Sair</li>              
+            </ul>
+        </td>
+    </tr>
+</table>
+{% endblock %}
