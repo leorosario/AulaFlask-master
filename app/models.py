@@ -27,14 +27,16 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
 class Cliente(db.Model):
     __tablename__ = 'Cliente'
     id = db.Column(db.Integer, primary_key=True)
     cpfcnpj = db.Column(db.Integer, nullable=False)
     nome = db.Column(db.String(100), nullable=False)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
 
