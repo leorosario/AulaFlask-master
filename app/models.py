@@ -34,7 +34,7 @@ def load_user(user_id):
 
 class Cliente(db.Model):
     __tablename__ = 'Cliente'
-    id = db.column(db.Integer, primary_key=True)
-    cpfcnpj = db.column(db.Integer, nullable=False)
-    nome = db.column(db.String(100), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    cpfcnpj = db.Column(db.Integer, nullable=False)
+    nome = db.Column(db.String(100), nullable=False)
 
