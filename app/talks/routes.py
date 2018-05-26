@@ -1,7 +1,10 @@
 from flask import render_template, redirect, url_for, flash
+from flask_login import login_required, current_user
+from app import db
 from . import talks
 from ..auth.forms import ClientForm
-from ..models import User
+from ..auth.forms import ClienteForm
+from ..models import User, Cliente
 
 @talks.route('/')
 def index():
@@ -21,8 +24,17 @@ def atividades():
     return render_template('/talks/atividades.html')
 
 @talks.route('/admin/clientes', methods = ['GET', 'POST'])
+@login_required
 def cadastrarCliente():
-    return render_template('/talks/cadastrarCliente.html')
+    form = ClienteForm()
+    if form.validate_on_submit():
+        cliente = Cliente()
+        form.to_model(cliente)
+        db.session.add(cliente)
+        db.session.commit()
+        flash('Sucesso cliente salvo.')
+        return redirect(url_for('.index'))
+    return render_template('/talks/cadastrarCliente.html', form = form)
 
 @talks.route('/admin/funcionario', methods = ['GET', 'POST'])
 def cadastrarFuncionario():

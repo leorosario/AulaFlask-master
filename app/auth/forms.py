@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import IntegerField, StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Length, Email
+
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64), Email()])
@@ -13,4 +14,13 @@ class ClientForm(FlaskForm):
     nome = StringField('Nome:', validators=[DataRequired(), Length(6, 20)])
     idade = StringField('Idade :', validators=[DataRequired(), Length(6, 20)])
     submit = SubmitField('Cadastrar')
+
+class ClienteForm(FlaskForm):
+    cpfcnpj = IntegerField('CpfCnpj', validators=[DataRequired()])
+    nome = StringField('Nome:', validators=[DataRequired(), Length(6, 20)])
+    submit = SubmitField('Gravar')
+
+    def to_model(self, cliente):
+        cliente.cpfcnpj = self.cpfcnpj.data
+        cliente.nome = self.nome.data
 
