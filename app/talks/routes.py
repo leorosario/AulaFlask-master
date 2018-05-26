@@ -4,7 +4,8 @@ from app import db
 from . import talks
 from ..auth.forms import ClientForm
 from ..auth.forms import ClienteForm
-from ..models import User, Cliente
+from ..auth.forms import FuncionarioForm
+from ..models import User, Cliente, Funcionario
 
 @talks.route('/')
 def index():
@@ -37,8 +38,17 @@ def cadastrarCliente():
     return render_template('/talks/cadastrarCliente.html', form = form)
 
 @talks.route('/admin/funcionario', methods = ['GET', 'POST'])
+@login_required
 def cadastrarFuncionario():
-    return render_template('/talks/cadastrarFuncionario.html')
+    form = FuncionarioForm()
+    if form.validate_on_submit():
+        funcionario = Funcionario()
+        form.to_model(funcionario)
+        db.session.add(funcionario)
+        db.session.commit()
+        flash('Sucesso funcionario salvo.')
+        return redirect(url_for('.index'))
+    return render_template('/talks/cadastrarFuncionario.html', form = form)
 
 @talks.route('/admin/projeto', methods = ['GET', 'POST'])
 def cadastrarProjeto():

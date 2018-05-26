@@ -24,3 +24,13 @@ class ClienteForm(FlaskForm):
         cliente.cpfcnpj = self.cpfcnpj.data
         cliente.nome = self.nome.data
 
+class FuncionarioForm(FlaskForm):
+    matricula = IntegerField('Matricula', validators=[DataRequired()])
+    nome = StringField('Nome:', validators=[DataRequired(), Length(6, 20)])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Gravar')
+
+    def to_model(self, funcionario):
+        funcionario.matricula = self.matricula.data
+        funcionario.nome = self.nome.data
+        funcionario.password = self.password.data

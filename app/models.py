@@ -28,10 +28,29 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
 class Cliente(db.Model):
-    __tablename__ = 'Cliente'
+    __tablename__ = 'cliente'
     id = db.Column(db.Integer, primary_key=True)
     cpfcnpj = db.Column(db.Integer, nullable=False)
     nome = db.Column(db.String(100), nullable=False)
+
+class Funcionario(db.Model):
+    __tablename__ = 'funcionario'
+    id = db.Column(db.Integer, primary_key=True)
+    matricula = db.Column(db.Integer, nullable=False, unique=True)
+    nome = db.Column(db.String(100), nullable=False)
+    password_hash = db.Column(db.String(256))
+
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
 
 
 @login_manager.user_loader
