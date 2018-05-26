@@ -5,7 +5,9 @@ from . import talks
 from ..auth.forms import ClientForm
 from ..auth.forms import ClienteForm
 from ..auth.forms import FuncionarioForm
-from ..models import User, Cliente, Funcionario
+from ..auth.forms import AtividadeForm
+from ..auth.forms import ProjetoForm
+from ..models import User, Cliente, Funcionario, Atividade,Projeto
 
 @talks.route('/')
 def index():
@@ -21,8 +23,17 @@ def alterarSenha():
     return render_template('/talks/alterarSenha.html')
 
 @talks.route('/admin/atividades', methods = ['GET', 'POST'])
+@login_required
 def atividades():
-    return render_template('/talks/atividades.html')
+    form = AtividadeForm()
+    if form.validate_on_submit():
+        atividade = Atividade()
+        form.to_model(atividade)
+        db.session.add(atividade)
+        db.session.commit()
+        flash('Sucesso atividade salva.')
+        return redirect(url_for('.index'))
+    return render_template('/talks/atividades.html', form = form)
 
 @talks.route('/admin/clientes', methods = ['GET', 'POST'])
 @login_required
@@ -52,7 +63,15 @@ def cadastrarFuncionario():
 
 @talks.route('/admin/projeto', methods = ['GET', 'POST'])
 def cadastrarProjeto():
-    return render_template('/talks/cadastrarProjeto.html')
+    form = ProjetoForm()
+    if form.validate_on_submit():
+        projeto = Projeto()
+        form.to_model(projeto)
+        db.session.add(projeto)
+        db.session.commit()
+        flash('Sucesso projeto salvo')
+        return redirect(url_for('.index'))
+    return render_template('/talks/cadastrarProjeto.html', form = form)
 
 
 @talks.route('/admin/vinculacao', methods = ['GET', 'POST'])

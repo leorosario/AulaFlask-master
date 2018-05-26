@@ -1,11 +1,9 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
-<form>
-    <input type="text" placeholder="Cod Atividade"><br>
-    <input type="text" placeholder="Descricao"><br>
-    <button>Excluir</button>
-    <br>
-    <button>Gravar</button>
-</form>
+<div class="page-header">
+    <h1>Cadastrar Atividade</h1>
+</div>
+{{ wtf.quick_form(form) }}
 {% endblock %}
