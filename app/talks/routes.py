@@ -7,7 +7,8 @@ from ..auth.forms import ClienteForm
 from ..auth.forms import FuncionarioForm
 from ..auth.forms import AtividadeForm
 from ..auth.forms import ProjetoForm
-from ..models import User, Cliente, Funcionario, Atividade,Projeto
+from ..auth.forms import FuncionarioProjetoForm
+from ..models import User, Cliente, Funcionario, Atividade,Projeto, FuncionarioProjeto
 
 @talks.route('/')
 def index():
@@ -76,7 +77,15 @@ def cadastrarProjeto():
 
 @talks.route('/admin/vinculacao', methods = ['GET', 'POST'])
 def vinculacao():
-    return render_template('/talks/funcProjeto.html')
+    form = FuncionarioProjetoForm()
+    if form.validate_on_submit():
+        funcionarioProjeto = FuncionarioProjeto()
+        form.to_model(funcionarioProjeto)
+        db.session.add(funcionarioProjeto)
+        db.session.commit()
+        flash('Sucesso funcionarioProjeto salvo')
+        return redirect(url_for('.index'))
+    return render_template('/talks/funcProjeto.html', form = form)
 
 @talks.route('/home')
 def home():

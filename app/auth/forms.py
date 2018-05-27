@@ -68,9 +68,33 @@ class ProjetoForm(FlaskForm):
 
     def to_model(self, projeto):
         projeto.id = self.id.data
-        projeto.nome = self.descricao.data
+        projeto.nome = self.nome.data
         projeto.cliente_id = self.cliente_id.data
         projeto.descricao = self.descricao.data
+
+class FuncionarioProjetoForm(FlaskForm):
+    id = IntegerField('Cod FuncionarioXPrjeto', validators=[DataRequired()])
+    conn = sqlite3.connect(("././data-dev.sqlite"))
+    # This is the important part, here we are setting row_factory property of
+    # connection object to sqlite3.Row(sqlite3.Row is an implementation of
+    # row_factory)
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    c.execute("select id, nome from funcionario")
+    listaFuncionario = c.fetchall()
+    funcionario_id = SelectField('Funcionario:', choices= listaFuncionario, coerce=int, validators=[DataRequired()])
+    d = conn.cursor()
+    d.execute("select id, nome from projeto")
+    listaProjeto = d.fetchall()
+    projeto_id = SelectField('Projeto:', choices=listaProjeto, coerce=int, validators=[DataRequired()])
+    coordenador = BooleanField('Coordenador:')
+    submit = SubmitField('Gravar')
+
+    def to_model(self, funcionarioProjeto):
+        funcionarioProjeto.id = self.id.data
+        funcionarioProjeto.funcionario_id = self.funcionario_id.data
+        funcionarioProjeto.projeto_id = self.projeto_id.data
+        funcionarioProjeto.coordenador = self.coordenador.data
 
 
 

@@ -63,7 +63,12 @@ class Projeto(db.Model):
     cliente_id = db.Column(db.Integer, db.ForeignKey('cliente.id'))
     descricao = db.Column(db.String(300), nullable=False)
 
-
+class FuncionarioProjeto(db.Model):
+    __tablename__ = 'funcionarioProjeto'
+    id = db.Column(db.Integer, primary_key=True)
+    funcionario_id = db.Column(db.Integer, db.ForeignKey('funcionario.id'))
+    projeto_id = db.Column(db.Integer, db.ForeignKey('projeto.id'))
+    coordenador = db.Column(db.Boolean)
 
 @login_manager.user_loader
 def load_user(user_id):
