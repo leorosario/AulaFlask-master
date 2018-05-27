@@ -18,9 +18,9 @@
                 <td>{{ cliente.cpfcnpj }}</td>
                 <td>{{ cliente.nome }}</td>
                 <td>
-                    <a href="/atualizar/{{ cliente.id }}">Editar</a> |
-                    <a href="/excluir/{{ cliente.id }}">Detalhes</a> |
-                    <a href="/excluir/{{ cliente.id }}">Deletar</a>
+                    <a href="/admin/clientes/editar/{{ cliente.id }}">Editar</a> |
+                    <a href="/admin/clientes/detalhes/{{ cliente.id }}">Detalhes</a> |
+                    <a href="/admin/clientes/deletar/{{ cliente.id }}">Deletar</a>
                 </td>
             </tr>
         {% endfor %}

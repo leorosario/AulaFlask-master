@@ -19,9 +19,9 @@
                 <td>{{ projeto.cliente.nome }}</td>
 
                 <td>
-                    <a href="/atualizar/{{ projeto.id }}">Editar</a> |
-                    <a href="/excluir/{{ projeto.id }}">Detalhes</a> |
-                    <a href="/excluir/{{ projeto.id }}">Deletar</a>
+                    <a href="/admin/projeto/editar/{{ projeto.id }}">Editar</a> |
+                    <a href="/admin/projeto/detalhes/{{ projeto.id }}">Detalhes</a> |
+                    <a href="/admin/projeto/deletar/{{ projeto.id }}">Deletar</a>
                 </td>
             </tr>
         {% endfor %}

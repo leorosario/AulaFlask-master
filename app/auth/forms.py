@@ -26,6 +26,10 @@ class ClienteForm(FlaskForm):
         cliente.cpfcnpj = self.cpfcnpj.data
         cliente.nome = self.nome.data
 
+    def to_form(self, cliente):
+        self.cpfcnpj.data = cliente.cpfcnpj
+        self.nome.data = cliente.nome
+
 class FuncionarioForm(FlaskForm):
     matricula = IntegerField('Matricula', validators=[DataRequired()])
     nome = StringField('Nome:', validators=[DataRequired(), Length(2, 20)])
@@ -37,6 +41,20 @@ class FuncionarioForm(FlaskForm):
         funcionario.nome = self.nome.data
         funcionario.password = self.password.data
 
+class EditarFuncionarioForm(FlaskForm):
+    matricula = IntegerField('Matricula', validators=[DataRequired()])
+    nome = StringField('Nome:', validators=[DataRequired(), Length(2, 20)])
+    submit = SubmitField('Gravar')
+
+    def to_model(self, funcionario):
+        funcionario.matricula = self.matricula.data
+        funcionario.nome = self.nome.data
+
+    def to_form(self, funcionario):
+        self.matricula.data = funcionario.matricula
+        self.nome.data = funcionario.nome
+
+
 class AtividadeForm(FlaskForm):
     id = IntegerField('Cod atividade', validators=[DataRequired()])
     descricao = TextAreaField('Descrição:', validators=[DataRequired(), Length(6, 300)])
@@ -45,6 +63,10 @@ class AtividadeForm(FlaskForm):
     def to_model(self, atividade):
         atividade.id = self.id.data
         atividade.descricao = self.descricao.data
+
+    def to_form(self, atividade):
+        self.id.data = atividade.id
+        self.descricao.data = atividade.descricao
 
 class ProjetoForm(FlaskForm):
     id = IntegerField('Cod Projeto', validators=[DataRequired()])
@@ -69,6 +91,12 @@ class ProjetoForm(FlaskForm):
         projeto.cliente_id = self.cliente_id.data
         projeto.descricao = self.descricao.data
 
+    def to_form(self, projeto):
+        self.id.data = projeto.id
+        self.nome.data = projeto.nome
+        self.cliente_id.data = projeto.cliente_id
+        self.descricao.data = projeto.descricao
+
 class FuncionarioProjetoForm(FlaskForm):
     id = IntegerField('Cod FuncionarioXPrjeto', validators=[DataRequired()])
     conn = sqlite3.connect(("././data-dev.sqlite"))
@@ -90,6 +118,11 @@ class FuncionarioProjetoForm(FlaskForm):
         funcionarioProjeto.projeto_id = self.projeto_id.data
         funcionarioProjeto.coordenador = self.coordenador.data
 
+    def to_form(self, funcionarioProjeto):
+        self.id.data = funcionarioProjeto.id
+        self.funcionario_id.data = funcionarioProjeto.funcionario_id
+        self.projeto_id.data = funcionarioProjeto.projeto_id  
+        self.coordenador.data = funcionarioProjeto.coordenador
 
 
 

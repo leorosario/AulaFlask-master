@@ -5,7 +5,7 @@
 <div class="page-header">
     <h1>Funcionarios</h1>
 </div>
-<label><a href="admin/funcionario/cadastrar">Cadastrar</a></label>
+<label><a href="/admin/funcionario/cadastrar">Cadastrar</a></label>
 <table  class="table">
     <tbody>
         <tr>
@@ -19,9 +19,9 @@
                 <td>{{ funcionario.nome }}</td>
 
                 <td>
-                    <a href="/atualizar/{{ funcionario.id }}">Editar</a> |
-                    <a href="/excluir/{{ funcionario.id }}">Detalhes</a> |
-                    <a href="/excluir/{{ funcionario.id }}">Deletar</a>
+                    <a href="/admin/funcionario/editar/{{ funcionario.id }}">Editar</a> |
+                    <a href="/admin/funcionario/detalhes/{{ funcionario.id }}">Detalhes</a> |
+                    <a href="/admin/funcionario/deletar/{{ funcionario.id }}">Deletar</a>
                 </td>
             </tr>
         {% endfor %}

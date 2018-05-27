@@ -18,9 +18,9 @@
                 <td>{{ atividade.id }}</td>
                 <td>{{ atividade.descricao }}</td>
                 <td>
-                    <a href="/atualizar/{{ atividade.id }}">Editar</a> |
-                    <a href="/excluir/{{ atividade.id }}">Detalhes</a> |
-                    <a href="/excluir/{{ atividade.id }}">Deletar</a>
+                    <a href="/admin/atividades/editar/{{ atividade.id }}">Editar</a> |
+                    <a href="/admin/atividades/detalhes/{{ atividade.id }}">Detalhes</a> |
+                    <a href="/admin/atividades/deletar/{{ atividade.id }}">Deletar</a>
                 </td>
             </tr>
         {% endfor %}

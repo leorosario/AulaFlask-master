@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% block page_content %}
+<div class="page-header">
+    <h1>Home</h1>
+</div>
 <table>
     <tr>
-        {% if current_user.admin %}    
+        {% if current_user.is_admin %}
             <td>        
                 <h2>Cadastro</h2>            
             </td>
@@ -18,13 +21,13 @@
         </td>
     </tr>
     <tr>  
-        {% if current_user.admin %} 
+        {% if current_user.is_admin %}
             <td>
                 <ul>                              
-                    <li><a href="{{ url_for('talks.cadastrarProjeto') }}">Projetos</a></li> 
-                    <li><a href="{{ url_for('talks.cadastrarCliente') }}">Clientes</a></li>  
-                    <li><a href="{{ url_for('talks.cadastrarFuncionario') }}">Funcionarios</a></li>  
-                    <li><a href="{{ url_for('talks.funcProjeto') }}">FuncionariosXProjetos</a></li>  
+                    <li><a href="{{ url_for('talks.projeto') }}">Projetos</a></li>
+                    <li><a href="{{ url_for('talks.clientes') }}">Clientes</a></li>
+                    <li><a href="{{ url_for('talks.funcionario') }}">Funcionarios</a></li>
+                    <li><a href="{{ url_for('talks.projeto') }}">FuncionariosXProjetos</a></li>
                     <li><a href="{{ url_for('talks.atividades') }}">Atividades</a></li>              
                 </ul>
             </td>  
