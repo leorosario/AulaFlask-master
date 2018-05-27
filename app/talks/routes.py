@@ -38,6 +38,12 @@ def atividades():
 
 @talks.route('/admin/clientes', methods = ['GET', 'POST'])
 @login_required
+def clientes():
+    clientes = Cliente.query.all()
+    return render_template('/talks/cliente.html', clientes = clientes)
+
+@talks.route('/admin/clientes/cadastrar', methods = ['GET', 'POST'])
+@login_required
 def cadastrarCliente():
     form = ClienteForm()
     if form.validate_on_submit():
@@ -48,6 +54,7 @@ def cadastrarCliente():
         flash('Sucesso cliente salvo.')
         return redirect(url_for('.index'))
     return render_template('/talks/cadastrarCliente.html', form = form)
+
 
 @talks.route('/admin/funcionario', methods = ['GET', 'POST'])
 @login_required

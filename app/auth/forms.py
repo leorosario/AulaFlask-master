@@ -51,9 +51,6 @@ class ProjetoForm(FlaskForm):
     nome = StringField('Nome:', validators=[DataRequired(), Length(2, 20)])
 
     conn = sqlite3.connect(("././data-dev.sqlite"))
-    # This is the important part, here we are setting row_factory property of
-    # connection object to sqlite3.Row(sqlite3.Row is an implementation of
-    # row_factory)
     conn.row_factory = sqlite3.Row
     c = conn.cursor()
     c.execute("select id, nome from cliente")
@@ -75,9 +72,6 @@ class ProjetoForm(FlaskForm):
 class FuncionarioProjetoForm(FlaskForm):
     id = IntegerField('Cod FuncionarioXPrjeto', validators=[DataRequired()])
     conn = sqlite3.connect(("././data-dev.sqlite"))
-    # This is the important part, here we are setting row_factory property of
-    # connection object to sqlite3.Row(sqlite3.Row is an implementation of
-    # row_factory)
     conn.row_factory = sqlite3.Row
     c = conn.cursor()
     c.execute("select id, nome from funcionario")
