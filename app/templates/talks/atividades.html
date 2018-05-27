@@ -3,7 +3,27 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Cadastrar Atividade</h1>
+    <h1>Atividades</h1>
 </div>
-{{ wtf.quick_form(form) }}
+<label><a href="/admin/atividades/cadastrar">Cadastrar</a></label>
+<table  class="table">
+    <tbody>
+        <tr>
+            <td>Cod Atividade</td>
+            <td>Descricao</td>
+            <th></th>
+        </tr>
+        {% for atividade in atividades %}
+            <tr>
+                <td>{{ atividade.id }}</td>
+                <td>{{ atividade.descricao }}</td>
+                <td>
+                    <a href="/atualizar/{{ atividade.id }}">Editar</a> |
+                    <a href="/excluir/{{ atividade.id }}">Detalhes</a> |
+                    <a href="/excluir/{{ atividade.id }}">Deletar</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

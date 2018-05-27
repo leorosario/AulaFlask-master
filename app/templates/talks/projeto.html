@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Projetos</h1>
+</div>
+<label><a href="/admin/projeto/cadastrar">Cadastrar</a></label>
+<table  class="table">
+    <tbody>
+        <tr>
+            <td>Nome</td>
+            <td>Cliente</td>
+            <th></th>
+        </tr>
+        {% for projeto in projetos %}
+            <tr>
+                <td>{{ projeto.nome }}</td>
+                <td>{{ projeto.cliente.nome }}</td>
+
+                <td>
+                    <a href="/atualizar/{{ projeto.id }}">Editar</a> |
+                    <a href="/excluir/{{ projeto.id }}">Detalhes</a> |
+                    <a href="/excluir/{{ projeto.id }}">Deletar</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

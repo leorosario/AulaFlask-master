@@ -3,7 +3,33 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>Vincular Funcionario ao Projeto</h1>
+    <h1>Funcionario X Projetos</h1>
 </div>
-{{ wtf.quick_form(form) }}
+<label><a href="/admin/vinculacao/cadastrar">Cadastrar</a></label>
+<table  class="table">
+    <tbody>
+        <tr>
+            <td>Cod FuncionarioXProjeto</td>
+            <td>Funcionario</td>
+            <td>Projeto</td>
+            <td>Coordenador</td>
+            <th></th>
+        </tr>
+        {% for vinculacao in vinculacoes %}
+            <tr>
+                <td>{{ vinculacao.id }}</td>
+                <td>{{ vinculacao.funcionario.nome }}</td>
+                <td>{{ vinculacao.projeto.nome }}</td>
+                <td>{{ vinculacao.coordenador }}</td>
+
+
+                <td>
+                    <a href="/atualizar/{{ vinculacao.id }}">Editar</a> |
+                    <a href="/excluir/{{ vinculacao.id }}">Detalhes</a> |
+                    <a href="/excluir/{{ vinculacao.id }}">Deletar</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

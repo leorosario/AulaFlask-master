@@ -5,23 +5,23 @@
 <div class="page-header">
     <h1>Clientes</h1>
 </div>
-<label><a href="/clientes/cadastrar">Cadastrar</a></label>
+<label><a href="/admin/clientes/cadastrar">Cadastrar</a></label>
 <table  class="table">
     <tbody>
         <tr>
             <td>CPF/CNPJ</td>
             <td>Nome</td>
-            <td>Detalhes</td>
-            <td>Editar</td>
-            <td>Deletar</td>
+            <th></th>
         </tr>
         {% for cliente in clientes %}
             <tr>
                 <td>{{ cliente.cpfcnpj }}</td>
                 <td>{{ cliente.nome }}</td>
-                <td><a href="/excluir/{{ cliente.id }}">Detalhes</a></td>
-                <td><a href="/atualizar/{{ cliente.id }}">Editar</a></td>
-                <td><a href="/excluir/{{ cliente.id }}">Deletar</a></td>
+                <td>
+                    <a href="/atualizar/{{ cliente.id }}">Editar</a> |
+                    <a href="/excluir/{{ cliente.id }}">Detalhes</a> |
+                    <a href="/excluir/{{ cliente.id }}">Deletar</a>
+                </td>
             </tr>
         {% endfor %}
     </tbody>

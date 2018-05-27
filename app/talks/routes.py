@@ -26,6 +26,12 @@ def alterarSenha():
 @talks.route('/admin/atividades', methods = ['GET', 'POST'])
 @login_required
 def atividades():
+    atividades = Atividade.query.all()
+    return render_template('/talks/atividades.html', atividades = atividades)
+
+@talks.route('/admin/atividades', methods = ['GET', 'POST'])
+@login_required
+def atividadesCadastrar():
     form = AtividadeForm()
     if form.validate_on_submit():
         atividade = Atividade()
@@ -34,7 +40,7 @@ def atividades():
         db.session.commit()
         flash('Sucesso atividade salva.')
         return redirect(url_for('.index'))
-    return render_template('/talks/atividades.html', form = form)
+    return render_template('/talks/atividadesCadastrar.html', form = form)
 
 @talks.route('/admin/clientes', methods = ['GET', 'POST'])
 @login_required
@@ -52,11 +58,17 @@ def cadastrarCliente():
         db.session.add(cliente)
         db.session.commit()
         flash('Sucesso cliente salvo.')
-        return redirect(url_for('.index'))
+        return redirect(url_for('talks.cliente'))
     return render_template('/talks/cadastrarCliente.html', form = form)
 
 
 @talks.route('/admin/funcionario', methods = ['GET', 'POST'])
+@login_required
+def funcionario():
+    funcionarios = Funcionario.query.all()
+    return render_template('/talks/funcionario.html', funcionarios = funcionarios)
+
+@talks.route('/admin/funcionario/cadastrar', methods = ['GET', 'POST'])
 @login_required
 def cadastrarFuncionario():
     form = FuncionarioForm()
@@ -66,10 +78,17 @@ def cadastrarFuncionario():
         db.session.add(funcionario)
         db.session.commit()
         flash('Sucesso funcionario salvo.')
-        return redirect(url_for('.index'))
+        return redirect(url_for('talks.funcionario'))
     return render_template('/talks/cadastrarFuncionario.html', form = form)
 
 @talks.route('/admin/projeto', methods = ['GET', 'POST'])
+def projeto():
+    projetos = Projeto.query.all()
+    for projeto in projetos:
+        projeto.cliente = Cliente.query.get(projeto.cliente_id)
+    return render_template('/talks/projeto.html', projetos = projetos)
+
+@talks.route('/admin/projeto/cadastrar', methods = ['GET', 'POST'])
 def cadastrarProjeto():
     form = ProjetoForm()
     if form.validate_on_submit():
@@ -78,12 +97,20 @@ def cadastrarProjeto():
         db.session.add(projeto)
         db.session.commit()
         flash('Sucesso projeto salvo')
-        return redirect(url_for('.index'))
+        return redirect(url_for('talks.projeto'))
     return render_template('/talks/cadastrarProjeto.html', form = form)
 
 
 @talks.route('/admin/vinculacao', methods = ['GET', 'POST'])
 def vinculacao():
+    vinculacoes = FuncionarioProjeto.query.all()
+    for vinculacao in vinculacoes:
+        vinculacao.funcionario = Funcionario.query.get(vinculacao.funcionario_id)
+        vinculacao.projeto = Projeto.query.get(vinculacao.projeto_id)
+    return render_template('/talks/funcProjeto.html', vinculacoes = vinculacoes)
+
+@talks.route('/admin/vinculacao/cadastrar', methods = ['GET', 'POST'])
+def vinculacaoCadastrar():
     form = FuncionarioProjetoForm()
     if form.validate_on_submit():
         funcionarioProjeto = FuncionarioProjeto()
@@ -91,8 +118,8 @@ def vinculacao():
         db.session.add(funcionarioProjeto)
         db.session.commit()
         flash('Sucesso funcionarioProjeto salvo')
-        return redirect(url_for('.index'))
-    return render_template('/talks/funcProjeto.html', form = form)
+        return redirect(url_for('talks.funcProjeto'))
+    return render_template('/talks/funcProjetoCadastrar.html', form = form)
 
 @talks.route('/home')
 def home():

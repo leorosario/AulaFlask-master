@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Funcionarios</h1>
+</div>
+<label><a href="admin/funcionario/cadastrar">Cadastrar</a></label>
+<table  class="table">
+    <tbody>
+        <tr>
+            <td>Matricula</td>
+            <td>Nome</td>
+            <th></th>
+        </tr>
+        {% for funcionario in funcionarios %}
+            <tr>
+                <td>{{ funcionario.matricula }}</td>
+                <td>{{ funcionario.nome }}</td>
+
+                <td>
+                    <a href="/atualizar/{{ funcionario.id }}">Editar</a> |
+                    <a href="/excluir/{{ funcionario.id }}">Detalhes</a> |
+                    <a href="/excluir/{{ funcionario.id }}">Deletar</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
