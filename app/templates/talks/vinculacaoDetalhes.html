@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Detalhes Vinculaçao</h1>
+</div>
+<dl class="dl-horizontal">
+    <dt>Cod FuncionarioXProjeto</dt>
+    <dd>{{vinculacao.id}}</dd>
+    <dt>Projeto</dt>
+    <dd>{{vinculacao.projeto.nome}}</dd>
+    <dt>Funcionario</dt>
+    <dd>{{vinculacao.funcionario.nome}}</dd>
+    <dt>Coordenador</dt>
+    <dd>{{vinculacao.coordenador}}</dd>
+</dl>
+<a href="/admin/vinculacao/editar/{{ vinculacao.id }}">Editar</a> |
+<a href="/admin/vinculacao">Voltar</a>
+{% endblock %}

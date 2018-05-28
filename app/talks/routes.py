@@ -67,6 +67,12 @@ def atividadesDeletar(id):
         return redirect(url_for('talks.clientes'))
     return render_template('/talks/atividadesDeletar.html', atividade = atividade)
 
+@talks.route('/admin/atividades/detalhes/<int:id>', methods = ['GET', 'POST'])
+@login_required
+def atividadesDetalhes(id):
+    atividade = Atividade.query.filter_by(id=id).first()
+    return render_template('/talks/atividadesDetalhes.html', atividade = atividade)
+
 @talks.route('/admin/clientes', methods = ['GET', 'POST'])
 @login_required
 def clientes():
@@ -110,6 +116,11 @@ def deletarCliente(id):
         return redirect(url_for('talks.clientes'))
     return render_template('/talks/clienteDeletar.html', cliente = cliente)
 
+@talks.route('/admin/clientes/detalhes/<int:id>', methods = ['GET', 'POST'])
+@login_required
+def detalhesCliente(id):
+    cliente = Cliente.query.filter_by(id=id).first()
+    return render_template('/talks/clienteDetalhes.html', cliente = cliente)
 
 @talks.route('/admin/funcionario', methods = ['GET', 'POST'])
 @login_required
@@ -154,6 +165,12 @@ def deletarFuncionario(id):
         return redirect(url_for('talks.funcionario'))
     return render_template('/talks/funcionarioDeletar.html', funcionario = funcionario)
 
+@talks.route('/admin/funcionario/detalhes/<int:id>', methods = ['GET', 'POST'])
+@login_required
+def detalhesFuncionario(id):
+    funcionario = Funcionario.query.filter_by(id=id).first()
+    return render_template('/talks/funcionarioDetalhes.html', funcionario = funcionario)
+
 @talks.route('/admin/projeto', methods = ['GET', 'POST'])
 def projeto():
     projetos = Projeto.query.all()
@@ -195,6 +212,12 @@ def deletarProjeto(id):
         return redirect(url_for('talks.projeto'))
     projeto.cliente = Cliente.query.get(projeto.cliente_id)
     return render_template('/talks/projetoDeletar.html', projeto = projeto)
+
+@talks.route('/admin/projeto/detalhes/<int:id>', methods = ['GET', 'POST'])
+def detalhesProjeto(id):
+    projeto = Projeto.query.filter_by(id=id).first()
+    projeto.cliente = Cliente.query.get(projeto.cliente_id)
+    return render_template('/talks/projetoDetalhes.html', projeto = projeto)
 
 @talks.route('/admin/vinculacao', methods = ['GET', 'POST'])
 def vinculacao():
@@ -239,6 +262,13 @@ def vinculacaoDeletar(id):
     vinculacao.funcionario = Funcionario.query.get(vinculacao.funcionario_id)
     vinculacao.projeto = Projeto.query.get(vinculacao.projeto_id)
     return render_template('/talks/vinculacaoDeletar.html', vinculacao = vinculacao)
+
+@talks.route('/admin/vinculacao/detalhes/<int:id>', methods = ['GET', 'POST'])
+def vinculacaoDetalhes(id):
+    vinculacao = FuncionarioProjeto.query.filter_by(id=id).first()
+    vinculacao.funcionario = Funcionario.query.get(vinculacao.funcionario_id)
+    vinculacao.projeto = Projeto.query.get(vinculacao.projeto_id)
+    return render_template('/talks/vinculacaoDetalhes.html', vinculacao = vinculacao)
 
 @talks.route('/home')
 def home():

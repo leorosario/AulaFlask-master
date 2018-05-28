@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Detalhes Funcionario</h1>
+</div>
+<dl class="dl-horizontal">
+    <dt>Matricula</dt>
+    <dd>{{funcionario.matricula}}</dd>
+    <dt>Nome</dt>
+    <dd>{{funcionario.nome}}</dd>
+</dl>
+<a href="/admin/funcionario/editar/{{ funcionario.id }}">Editar</a> |
+<a href="/admin/funcionario">Voltar</a>
+
+{% endblock %}
