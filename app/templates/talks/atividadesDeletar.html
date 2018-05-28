@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Deletar Atividade</h1>
+</div>
+<dl class="dl-horizontal">
+    <dt>Cod atividade</dt>
+    <dd>{{atividade.id}}</dd>
+    <dt>Descricao</dt>
+    <dd>{{atividade.descricao}}</dd>
+</dl>
+<form action="/admin/atividades/deletar/{{ atividade.id }}" method="post">
+    <input type="submit" value="Deletar" class="btn btn-default"> |
+    <a href="/admin/atividades">Voltar</a>
+</form>
+{% endblock %}

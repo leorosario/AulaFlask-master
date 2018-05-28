@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Deletar Vinculaçao</h1>
+</div>
+<dl class="dl-horizontal">
+    <dt>Cod FuncionarioXProjeto</dt>
+    <dd>{{vinculacao.id}}</dd>
+    <dt>Projeto</dt>
+    <dd>{{vinculacao.projeto.nome}}</dd>
+    <dt>Funcionario</dt>
+    <dd>{{vinculacao.funcionario.nome}}</dd>
+    <dt>Coordenador</dt>
+    <dd>{{vinculacao.coordenador}}</dd>
+</dl>
+<form action="/admin/vinculacao/deletar/{{ vinculacao.id }}" method="post">
+    <input type="submit" value="Deletar" class="btn btn-default"> |
+    <a href="/admin/vinculacao">Voltar</a>
+</form>
+{% endblock %}

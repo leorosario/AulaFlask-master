@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
 from app import db
 from . import talks
@@ -56,6 +56,17 @@ def atividadesEditar(id):
     form.to_form(atividade)
     return render_template('/talks/atividadesEditar.html', form = form)
 
+@talks.route('/admin/atividades/deletar/<int:id>', methods = ['GET', 'POST'])
+@login_required
+def atividadesDeletar(id):
+    atividade = Atividade.query.filter_by(id=id).first()
+    if request.method == "POST":
+        db.session.delete(atividade)
+        db.session.commit()
+        flash('Sucesso atividade deletada.')
+        return redirect(url_for('talks.clientes'))
+    return render_template('/talks/atividadesDeletar.html', atividade = atividade)
+
 @talks.route('/admin/clientes', methods = ['GET', 'POST'])
 @login_required
 def clientes():
@@ -87,6 +98,17 @@ def editarCliente(id):
         return redirect(url_for('talks.clientes'))
     form.to_form(cliente)
     return render_template('/talks/clienteEditar.html', form = form)
+
+@talks.route('/admin/clientes/deletar/<int:id>', methods = ['GET', 'POST'])
+@login_required
+def deletarCliente(id):
+    cliente = Cliente.query.filter_by(id=id).first()
+    if request.method == "POST":
+        db.session.delete(cliente)
+        db.session.commit()
+        flash('Sucesso cliente deletado.')
+        return redirect(url_for('talks.clientes'))
+    return render_template('/talks/clienteDeletar.html', cliente = cliente)
 
 
 @talks.route('/admin/funcionario', methods = ['GET', 'POST'])
@@ -121,6 +143,17 @@ def editarFuncionario(id):
     form.to_form(funcionario)
     return render_template('/talks/funcionarioEditar.html', form = form)
 
+@talks.route('/admin/funcionario/deletar/<int:id>', methods = ['GET', 'POST'])
+@login_required
+def deletarFuncionario(id):
+    funcionario = Funcionario.query.filter_by(id=id).first()
+    if request.method == "POST":
+        db.session.delete(funcionario)
+        db.session.commit()
+        flash('Sucesso funcionario deletado.')
+        return redirect(url_for('talks.funcionario'))
+    return render_template('/talks/funcionarioDeletar.html', funcionario = funcionario)
+
 @talks.route('/admin/projeto', methods = ['GET', 'POST'])
 def projeto():
     projetos = Projeto.query.all()
@@ -152,6 +185,17 @@ def editarProjeto(id):
     form.to_form(projeto)
     return render_template('/talks/projetoEditar.html', form = form)
 
+@talks.route('/admin/projeto/deletar/<int:id>', methods = ['GET', 'POST'])
+def deletarProjeto(id):
+    projeto = Projeto.query.filter_by(id=id).first()
+    if request.method == "POST":
+        db.session.delete(projeto)
+        db.session.commit()
+        flash('Sucesso projeto deletado.')
+        return redirect(url_for('talks.projeto'))
+    projeto.cliente = Cliente.query.get(projeto.cliente_id)
+    return render_template('/talks/projetoDeletar.html', projeto = projeto)
+
 @talks.route('/admin/vinculacao', methods = ['GET', 'POST'])
 def vinculacao():
     vinculacoes = FuncionarioProjeto.query.all()
@@ -168,7 +212,7 @@ def vinculacaoCadastrar():
         form.to_model(funcionarioProjeto)
         db.session.add(funcionarioProjeto)
         db.session.commit()
-        flash('Sucesso funcionarioProjeto salvo')
+        flash('Sucesso vinculacao salva')
         return redirect(url_for('talks.vinculacao'))
     return render_template('/talks/vinculacaoCadastrar.html', form = form)
 
@@ -179,10 +223,22 @@ def vinculacaoEditar(id):
     if form.validate_on_submit():
         form.to_model(funcionarioProjeto)
         db.session.commit()
-        flash('Sucesso cliente salvo.')
+        flash('Sucesso vinculacao salva.')
         return redirect(url_for('talks.vinculacao'))
     form.to_form(funcionarioProjeto)
     return render_template('/talks/vinculacaoEditar.html', form = form)
+
+@talks.route('/admin/vinculacao/deletar/<int:id>', methods = ['GET', 'POST'])
+def vinculacaoDeletar(id):
+    vinculacao = FuncionarioProjeto.query.filter_by(id=id).first()
+    if request.method == "POST":
+        db.session.delete(vinculacao)
+        db.session.commit()
+        flash('Sucesso vinculacao deletada.')
+        return redirect(url_for('talks.vinculacao'))
+    vinculacao.funcionario = Funcionario.query.get(vinculacao.funcionario_id)
+    vinculacao.projeto = Projeto.query.get(vinculacao.projeto_id)
+    return render_template('/talks/vinculacaoDeletar.html', vinculacao = vinculacao)
 
 @talks.route('/home')
 def home():
