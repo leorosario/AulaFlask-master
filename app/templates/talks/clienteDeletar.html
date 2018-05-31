@@ -1,18 +1,20 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-
-{% block page_content %}
-<div class="page-header">
-    <h1>Deletar Cliente</h1>
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
+<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 100px;border-radius: 10px;">
+    <div class="page-header">
+        <h1 style="text-align: center;">Deletar Cliente</h1>
+        <a href="/admin/clientes">
+            <button type="button" class="btn btn-primary btn-lg">
+                <i class="glyphicon glyphicon-chevron-left"></i>Voltar</button>
+        </a>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>CPF/CNPJ</dt>
+        <dd>{{cliente.cpfcnpj}}</dd>
+        <dt>Nome</dt>
+        <dd>{{cliente.nome}}</dd>
+    </dl>
+    <form action="/admin/clientes/deletar/{{ cliente.id }}" method="post">
+        <input type="submit" value="Deletar" class="btn btn-danger">
+    </form>
+    {% endblock %}
 </div>
-<dl class="dl-horizontal">
-    <dt>CPF/CNPJ</dt>
-    <dd>{{cliente.cpfcnpj}}</dd>
-    <dt>Nome</dt>
-    <dd>{{cliente.nome}}</dd>
-</dl>
-<form action="/admin/clientes/deletar/{{ cliente.id }}" method="post">
-    <input type="submit" value="Deletar" class="btn btn-default"> |
-    <a href="/admin/clientes">Voltar</a>
-</form>
-{% endblock %}

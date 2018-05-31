@@ -1,20 +1,25 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-
-{% block page_content %}
-<div class="page-header">
-    <h1>Detalhes Projeto</h1>
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
+<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 50px;border-radius: 10px;">
+    <div class="page-header">
+        <h1 style="text-align: center;">Detalhes Projeto</h1>
+        <a href="/admin/projeto">
+            <button type="button" class="btn btn-primary btn-lg">
+                <i class="glyphicon glyphicon-chevron-left"></i>Voltar</button>
+        </a>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>Cod Projeto</dt>
+        <dd>{{projeto.id}}</dd>
+        <dt>Nome</dt>
+        <dd>{{projeto.nome}}</dd>
+        <dt>Cliente</dt>
+        <dd>{{projeto.cliente.nome}}</dd>
+        <dt>Descrição</dt>
+        <dd>{{projeto.descricao}}</dd>
+    </dl>
+    <a href="/admin/projeto/editar/{{ projeto.id }}">
+        <button class="btn btn-info">
+            <i class="glyphicon glyphicon-pencil"></i>&nbsp;Editar</button>
+    </a>
+    {% endblock %}
 </div>
-<dl class="dl-horizontal">
-    <dt>Cod Projeto</dt>
-    <dd>{{projeto.id}}</dd>
-    <dt>Nome</dt>
-    <dd>{{projeto.nome}}</dd>
-    <dt>Cliente</dt>
-    <dd>{{projeto.cliente.nome}}</dd>
-    <dt>Descrição</dt>
-    <dd>{{projeto.descricao}}</dd>
-</dl>
-<a href="/admin/projeto/editar/{{ projeto.id }}">Editar</a> |
-<a href="/admin/projeto">Voltar</a>
-{% endblock %}

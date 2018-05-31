@@ -1,30 +1,47 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-
-{% block page_content %}
-<div class="page-header">
-    <h1>Funcionarios</h1>
-</div>
-<label><a href="/admin/funcionario/cadastrar">Cadastrar</a></label>
-<table  class="table">
-    <tbody>
-        <tr>
-            <td>Matricula</td>
-            <td>Nome</td>
-            <th></th>
-        </tr>
-        {% for funcionario in funcionarios %}
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
+<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 100px;border-radius: 10px;">
+    <div class="page-header">
+        <h1 style="text-align: center;">Funcionários</h1>
+    </div>
+    <a href="/admin/funcionario/cadastrar">
+        <button class="btn btn-success btn-lg" style="float: right;">
+            <i class="glyphicon glyphicon-user"></i>&nbsp;Cadastrar</button>
+    </a>
+    <br>
+    <br>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>
+                    <h3>Matricula</h3>
+                </th>
+                <th>
+                    <h3>Nome</h3>
+                </th>
+                <th></th>
+            </tr>
+            {% for funcionario in funcionarios %}
             <tr>
                 <td>{{ funcionario.matricula }}</td>
                 <td>{{ funcionario.nome }}</td>
 
                 <td>
-                    <a href="/admin/funcionario/editar/{{ funcionario.id }}">Editar</a> |
-                    <a href="/admin/funcionario/detalhes/{{ funcionario.id }}">Detalhes</a> |
-                    <a href="/admin/funcionario/deletar/{{ funcionario.id }}">Deletar</a>
+                    <a href="/admin/funcionario/editar/{{ funcionario.id }}">
+                        <button class="btn btn-primary">
+                            <i class="glyphicon glyphicon-pencil"></i>&nbsp;Editar</button>
+                    </a>
+                    <a href="/admin/funcionario/detalhes/{{ funcionario.id }}">
+                        <button class="btn btn-info">
+                            <i class="glyphicon glyphicon-info-sign"></i>&nbsp;Detalhes</button>
+                    </a>
+                    <a href="/admin/funcionario/deletar/{{ funcionario.id }}">
+                        <button class="btn btn-danger">
+                            <i class="glyphicon glyphicon-trash"></i>&nbsp;Deletar</button>
+                    </a>
                 </td>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

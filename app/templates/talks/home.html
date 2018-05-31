@@ -1,54 +1,81 @@
-{% extends "base.html" %}
-{% block page_content %}
-<div class="page-header">
-    <h1>Home</h1>
-</div>
-<table>
-    <tr>
-        {% if current_user.is_admin %}
-            <td>        
-                <h2>Cadastro</h2>            
-            </td>
-        {% endif %}
-        <td>
-            <h2>Lançamentos</h2>            
-        </td>
-        <td>
-            <h2>Relatórios</h2>            
-        </td>
-        <td>
-            <h2>Suporte</h2>            
-        </td>
-    </tr>
-    <tr>  
-        {% if current_user.is_admin %}
-            <td>
-                <ul>                              
-                    <li><a href="{{ url_for('talks.projeto') }}">Projetos</a></li>
-                    <li><a href="{{ url_for('talks.clientes') }}">Clientes</a></li>
-                    <li><a href="{{ url_for('talks.funcionario') }}">Funcionarios</a></li>
-                    <li><a href="{{ url_for('talks.vinculacao') }}">FuncionariosXProjetos</a></li>
-                    <li><a href="{{ url_for('talks.atividades') }}">Atividades</a></li>              
-                </ul>
-            </td>  
-        {% endif %}
-        <td>
-            <ul>                
-                <li><a href="{{ url_for('talks.relatorios') }}">Hora trabalhadas</a></li>                
-            </ul>
-        </td>
-        <td>
-            <ul>                
-                <li><a href="{{ url_for('talks.relatorios') }}">Minhas horas trabalhadas</a></li>  
-                <li><a href="{{ url_for('talks.lancamentoDeHorass') }}">HorasXProjetos</a></li>              
-            </ul>
-        </td>
-        <td>
-            <ul>                
-                <li><a href="{{ url_for('talks.alterarSenha') }}">Alterar Senha</a></li>  
-                <li>Sair</li>              
-            </ul>
-        </td>
-    </tr>
-</table>
+{% extends "base.html" %} {% block page_content %} 
+        {% if current_user.is_authenticated %}
+    <div class="container">
+        <table class="table ">
+            <tr>
+                {% if current_user.is_admin %}
+                <td>
+                    <h2>Cadastro</h2>
+                </td>
+                {% endif %}
+                <td>
+                    <h2>Lançamentos</h2>
+                </td>
+                <td>
+                    <h2>Relatórios</h2>
+                </td>
+                <td>
+                    <h2>Suporte</h2>
+                </td>
+            </tr>
+            <tr>
+                {% if current_user.is_admin %}
+                <td>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ url_for('talks.projeto') }}">Projetos</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('talks.clientes') }}">Clientes</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('talks.funcionario') }}">Funcionarios</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('talks.vinculacao') }}">FuncionariosXProjetos</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('talks.atividades') }}">Atividades</a>
+                        </li>
+                    </ul>
+                </td>
+                {% endif %}
+                <td>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ url_for('talks.relatorios') }}">Hora trabalhadas</a>
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ url_for('talks.relatorios') }}">Minhas horas trabalhadas</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('talks.lancamentoDeHorass') }}">Horas X Projetos</a>
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{{ url_for('talks.alterarSenha') }}">Alterar Senha</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('auth.logout') }}">Sair</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    {% endif %}
+    {% if not current_user.is_authenticated %}
+    <br><br>
+    <div style="background: rgb(245, 241, 241);text-align: center;border-radius: 15px;padding: 20px;margin-top:30px;">
+        <h1>Hello!</h1>
+        <h2>Por favor, efetue o Login para ver esta página.</h2>
+    </div>
+    {% endif %}
 {% endblock %}

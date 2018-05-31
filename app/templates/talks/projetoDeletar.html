@@ -1,22 +1,25 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
+<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 50px;border-radius: 10px;">
+    <div class="page-header">
+        <h1 style="text-align: center;">Deletar Projeto</h1>
+        <a href="/admin/projeto">
+            <button type="button" class="btn btn-primary btn-lg">
+                <i class="glyphicon glyphicon-chevron-left"></i>Voltar</button>
+        </a>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>Cod Projeto</dt>
+        <dd>{{projeto.id}}</dd>
+        <dt>Nome</dt>
+        <dd>{{projeto.nome}}</dd>
+        <dt>Cliente</dt>
+        <dd>{{projeto.cliente.nome}}</dd>
+        <dt>Descrição</dt>
+        <dd>{{projeto.descricao}}</dd>
+    </dl>
+    <form action="/admin/projeto/deletar/{{ projeto.id }}" method="post">
+        <input type="submit" value="Deletar" class="btn btn-danger"> 
 
-{% block page_content %}
-<div class="page-header">
-    <h1>Deletar Projeto</h1>
+    </form>
+    {% endblock %}
 </div>
-<dl class="dl-horizontal">
-    <dt>Cod Projeto</dt>
-    <dd>{{projeto.id}}</dd>
-    <dt>Nome</dt>
-    <dd>{{projeto.nome}}</dd>
-    <dt>Cliente</dt>
-    <dd>{{projeto.cliente.nome}}</dd>
-    <dt>Descrição</dt>
-    <dd>{{projeto.descricao}}</dd>
-</dl>
-<form action="/admin/projeto/deletar/{{ projeto.id }}" method="post">
-    <input type="submit" value="Deletar" class="btn btn-default"> |
-    <a href="/admin/projeto">Voltar</a>
-</form>
-{% endblock %}

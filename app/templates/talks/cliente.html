@@ -1,29 +1,44 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-
-{% block page_content %}
-<div class="page-header">
-    <h1>Clientes</h1>
-</div>
-<label><a href="/admin/clientes/cadastrar">Cadastrar</a></label>
-<table  class="table">
-    <tbody>
-        <tr>
-            <td>CPF/CNPJ</td>
-            <td>Nome</td>
-            <th></th>
-        </tr>
-        {% for cliente in clientes %}
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
+<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 100px;border-radius: 10px;">
+    <div class="page-header">
+        <h1 style="text-align: center;">Clientes</h1>
+    </div>
+    <a href="/admin/clientes/cadastrar">
+        <button class="btn btn-success btn-lg" style="float: right;">
+            <i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Cadastrar</button>
+    </a>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>
+                    <h3>CPF/CNPJ</h3>
+                </td>
+                <td>
+                    <h3>Nome</h3>
+                </td>
+                <th></th>
+            </tr>
+            {% for cliente in clientes %}
             <tr>
                 <td>{{ cliente.cpfcnpj }}</td>
                 <td>{{ cliente.nome }}</td>
                 <td>
-                    <a href="/admin/clientes/editar/{{ cliente.id }}">Editar</a> |
-                    <a href="/admin/clientes/detalhes/{{ cliente.id }}">Detalhes</a> |
-                    <a href="/admin/clientes/deletar/{{ cliente.id }}">Deletar</a>
+                    <a href="/admin/clientes/editar/{{ cliente.id }}">
+                        <button class="btn btn-primary">
+                            <i class="glyphicon glyphicon-pencil"></i>&nbsp;Editar</button>
+                    </a>
+                    <a href="/admin/clientes/detalhes/{{ cliente.id }}">
+                        <button class="btn btn-info">
+                            <i class="glyphicon glyphicon-info-sign"></i>&nbsp;Detalhes</button>
+                    </a>
+                    <a href="/admin/clientes/deletar/{{ cliente.id }}">
+                        <button class="btn btn-danger">
+                            <i class="glyphicon glyphicon-trash"></i>&nbsp;Deletar</button>
+                    </a>
                 </td>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% endblock %}
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}
+</div>

@@ -13,7 +13,7 @@ from ..models import User, Cliente, Funcionario, Atividade,Projeto, FuncionarioP
 
 @talks.route('/')
 def index():
-    return render_template('talks/index.html')
+    return render_template('talks/home.html')
 
 @talks.route('/user/<username>')
 def user(username):

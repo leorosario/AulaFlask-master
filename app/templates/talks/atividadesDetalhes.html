@@ -1,17 +1,22 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-
-{% block page_content %}
-<div class="page-header">
-    <h1>Detalhes Vinculaçao</h1>
-</div>
-<dl class="dl-horizontal">
-    <dt>Cod atividade</dt>
-    <dd>{{atividade.id}}</dd>
-    <dt>Descricao</dt>
-    <dd>{{atividade.descricao}}</dd>
-</dl>
-<a href="/admin/atividades/editar/{{ atividade.id }}">Editar</a> |
-<a href="/admin/vinculacao">Voltar</a>
-
-{% endblock %}
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
+<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 50px;border-radius: 10px;">
+    <div class="page-header">
+        <div class="page-header">
+            <h1 style="text-align: center;">Detalhes Atividade</h1>
+            <a href="/admin/vinculacao">
+                <button type="button" class="btn btn-primary btn-lg">
+                    <i class="glyphicon glyphicon-chevron-left"></i>Voltar</button>
+            </a>
+        </div>
+        <dl class="dl-horizontal">
+            <dt>Cod atividade</dt>
+            <dd>{{atividade.id}}</dd>
+            <dt>Descricao</dt>
+            <dd>{{atividade.descricao}}</dd>
+        </dl>
+        <a href="/admin/atividades/editar/{{ atividade.id }}">
+            <button class="btn btn-info">
+                <i class="glyphicon glyphicon-pencil"></i>&nbsp;Editar</button>
+        </a>
+        {% endblock %}
+        </div>

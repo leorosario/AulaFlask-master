@@ -1,9 +1,11 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
 
-{% block page_content %}
-<div class="page-header">
-    <h1>Editar Funcionario</h1>
+<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 100px;border-radius: 10px;">
+    <h1 style="text-align: center;">Editar Funcionário</h1>
+    <a href="/admin/funcionario">
+        <button class="btn btn-primary btn-lg">
+            <i class="glyphicon glyphicon-chevron-left"></i>&nbsp;Voltar</button>
+    </a>
+    <br>
+    <br> {{ wtf.quick_form(form) }} {% endblock %}
 </div>
-{{ wtf.quick_form(form) }}
-{% endblock %}

@@ -1,30 +1,43 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-
-{% block page_content %}
-<div class="page-header">
-    <h1>Projetos</h1>
-</div>
-<label><a href="/admin/projeto/cadastrar">Cadastrar</a></label>
-<table  class="table">
-    <tbody>
-        <tr>
-            <td>Nome</td>
-            <td>Cliente</td>
-            <th></th>
-        </tr>
-        {% for projeto in projetos %}
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
+<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 50px;border-radius: 10px;">
+    <div class="page-header">
+        <h1 style="text-align: center;">Projetos</h1>
+    </div>
+    <label>
+        <a href="/admin/projeto/cadastrar">
+            <button class="btn btn-success btn-lg" style="float:right;">
+                <i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Cadastrar</button>
+        </a>
+    </label>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td><h3>Nome Projeto</h3></td>
+                <td><h3>Cliente</h3></td>
+                <th></th>
+            </tr>
+            {% for projeto in projetos %}
             <tr>
                 <td>{{ projeto.nome }}</td>
                 <td>{{ projeto.cliente.nome }}</td>
-
                 <td>
-                    <a href="/admin/projeto/editar/{{ projeto.id }}">Editar</a> |
-                    <a href="/admin/projeto/detalhes/{{ projeto.id }}">Detalhes</a> |
-                    <a href="/admin/projeto/deletar/{{ projeto.id }}">Deletar</a>
+                    <a href="/admin/projeto/editar/{{ projeto.id }}">
+                        <button class="btn btn-primary">
+                            <i class="glyphicon glyphicon-pencil"></i>&nbsp;Editar</button>
+                    </a>
+                    <a href="/admin/projeto/detalhes/{{ projeto.id }}">
+                        <button class="btn btn-info">
+                            <i class="glyphicon glyphicon-info-sign"></i>&nbsp;Detalhes</button>
+                    </a>
+                    <a href="/admin/projeto/deletar/{{ projeto.id}}">
+                        <button class="btn btn-danger">
+                            <i class="glyphicon glyphicon-trash"></i>&nbsp;Deletar</button>
+                    </a>
                 </td>
+
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% endblock %}
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}
+</div>
