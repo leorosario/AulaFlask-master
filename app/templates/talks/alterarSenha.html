@@ -1,11 +1,9 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
-<br><br><br><br>
-<form>
-    <input type="password" name="senhaAtual" placeholder="senha Atual"><br><br>
-    <input type="password" name="novaSenha" placeholder="Nova senha"><br><br>
-    <input type="password" name="confirmarSenha" placeholder="confirmarSenha"><br><br>
-    <input type="submit" name="gravar" value="Gravar">
-</form>
+<div class="page-header">
+    <h1>Alterar Senha</h1>
+</div>
+{{ wtf.quick_form(form) }}
 {% endblock %}

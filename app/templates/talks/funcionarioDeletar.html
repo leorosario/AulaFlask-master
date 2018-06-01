@@ -12,6 +12,10 @@
         <dd>{{funcionario.matricula}}</dd>
         <dt>Nome</dt>
         <dd>{{funcionario.nome}}</dd>
+        <dt>Email</dt>
+        <dd>{{funcionario.email}}</dd>
+        <dt>Admin</dt>
+        <dd>{{funcionario.is_admin}}</dd>
     </dl>
     <form action="/admin/funcionario/deletar/{{ funcionario.id }}" method="post">
         <input type="submit" value="Deletar" class="btn btn-danger">

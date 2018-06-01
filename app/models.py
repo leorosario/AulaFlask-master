@@ -3,7 +3,7 @@ from . import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
-class User(UserMixin, db.Model):
+class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), nullable=False, unique=True, index=True)
@@ -33,12 +33,14 @@ class Cliente(db.Model):
     cpfcnpj = db.Column(db.Integer, nullable=False)
     nome = db.Column(db.String(100), nullable=False)
 
-class Funcionario(db.Model):
+class Funcionario(UserMixin, db.Model):
     __tablename__ = 'funcionario'
     id = db.Column(db.Integer, primary_key=True)
     matricula = db.Column(db.Integer, nullable=False, unique=True)
-    nome = db.Column(db.String(100), nullable=False)
+    nome = db.Column(db.String(64), nullable=False, unique=True, index=True)
+    email = db.Column(db.String(64), nullable=False, unique=True, index=True)
     password_hash = db.Column(db.String(256))
+    is_admin = db.Column(db.Boolean)
 
     @property
     def password(self):
@@ -72,7 +74,7 @@ class FuncionarioProjeto(db.Model):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return Funcionario.query.get(int(user_id))
 
 
 

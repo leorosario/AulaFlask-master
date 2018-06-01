@@ -9,20 +9,28 @@ from ..auth.forms import EditarFuncionarioForm
 from ..auth.forms import AtividadeForm
 from ..auth.forms import ProjetoForm
 from ..auth.forms import FuncionarioProjetoForm
+from ..auth.forms import AlterarSenhaForm
 from ..models import User, Cliente, Funcionario, Atividade,Projeto, FuncionarioProjeto
 
 @talks.route('/')
 def index():
     return render_template('talks/home.html')
 
-@talks.route('/user/<username>')
-def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
+@talks.route('/user/<nome>')
+def user(nome):
+    user = Funcionario.query.filter_by(nome=nome).first_or_404()
     return render_template('talks/user.html', user=user)
 
 @talks.route('/alterarSenha', methods = ['GET', 'POST'])
 def alterarSenha():
-    return render_template('/talks/alterarSenha.html')
+    funcionario = Funcionario.query.filter_by(email = current_user.email).first()
+    form = AlterarSenhaForm()
+    if form.validate_on_submit() and funcionario.verify_password(form.passwordAtual.data):
+        form.to_model(funcionario)
+        db.session.commit()
+        flash('Sucesso cliente salvo.')
+        return redirect(url_for('talks.atividades'))
+    return render_template('/talks/alterarSenha.html', form = form)
 
 @talks.route('/admin/atividades', methods = ['GET', 'POST'])
 @login_required

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, StringField, TextAreaField, PasswordField, BooleanField, SubmitField, SelectField
+from wtforms import IntegerField, StringField, TextAreaField, PasswordField, BooleanField, SubmitField, SelectField, validators
 from wtforms.validators import DataRequired, Length, Email
 from .. models import Cliente
 import sqlite3
@@ -33,26 +33,36 @@ class ClienteForm(FlaskForm):
 class FuncionarioForm(FlaskForm):
     matricula = IntegerField('Matricula', validators=[DataRequired()])
     nome = StringField('Nome:', validators=[DataRequired(), Length(2, 20)])
+    email = StringField('Email:', validators=[DataRequired(), Length(2, 50)])
     password = PasswordField('Password', validators=[DataRequired()])
+    is_admin = BooleanField('Admin')
     submit = SubmitField('Gravar')
 
     def to_model(self, funcionario):
         funcionario.matricula = self.matricula.data
         funcionario.nome = self.nome.data
+        funcionario.email = self.email.data
         funcionario.password = self.password.data
+        funcionario.is_admin = self.is_admin.data
 
 class EditarFuncionarioForm(FlaskForm):
     matricula = IntegerField('Matricula', validators=[DataRequired()])
     nome = StringField('Nome:', validators=[DataRequired(), Length(2, 20)])
+    email = StringField('Email:', validators=[DataRequired(), Length(2, 50)])
+    is_admin = BooleanField('Admin')
     submit = SubmitField('Gravar')
 
     def to_model(self, funcionario):
         funcionario.matricula = self.matricula.data
         funcionario.nome = self.nome.data
+        funcionario.email = self.email.data
+        funcionario.is_admin = self.is_admin.data
 
     def to_form(self, funcionario):
         self.matricula.data = funcionario.matricula
         self.nome.data = funcionario.nome
+        self.email.data = funcionario.email
+        self.is_admin.data = funcionario.is_admin
 
 
 class AtividadeForm(FlaskForm):
@@ -77,9 +87,6 @@ class ProjetoForm(FlaskForm):
     c = conn.cursor()
     c.execute("select id, nome from cliente")
     lista = c.fetchall()
-    if(lista == None):
-        lista = [(1, "Nao Deu"), (2, "Nao Deu 2")]
-
 
     cliente_id = SelectField('Cliente:', choices= lista, coerce=int, validators=[DataRequired()])
     descricao = TextAreaField('Descricao:', validators=[DataRequired(), Length(6, 300)])
@@ -123,6 +130,19 @@ class FuncionarioProjetoForm(FlaskForm):
         self.funcionario_id.data = funcionarioProjeto.funcionario_id
         self.projeto_id.data = funcionarioProjeto.projeto_id  
         self.coordenador.data = funcionarioProjeto.coordenador
+
+class AlterarSenhaForm(FlaskForm):
+    passwordAtual = PasswordField('Password Atual', validators=[DataRequired()])
+    passwordNovo = PasswordField('Password Novo', [validators.data_required(), validators.EqualTo('confirm', message='As senhas devem corresponder')])
+    confirm = PasswordField('Repita o Password', validators=[DataRequired()])
+    submit = SubmitField('Gravar')
+
+    def to_model(self, funcionario):
+        funcionario.password = self.passwordNovo.data
+
+
+
+
 
 
 
