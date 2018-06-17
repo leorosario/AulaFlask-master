@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
+<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 100px;border-radius: 10px;text-align: center;">
+    <h1>Você não tem privilégios para acessar esta Página!</h1>
+    <h2>Volte para a home ou deslogue e use um login de Administrador</h2>
+    <br><br><br>
+    <a href="/home">
+        <button class="btn btn-success btn-lg">
+            <i class="glyphicon glyphicon-home"></i>&nbsp;Home</button>
+    </a>
+    <a href="{{ url_for('auth.logout') }}">
+        <button class="btn btn-danger btn-lg">
+        <i class="glyphicon glyphicon-log-out"></i>&nbsp;Logout</button></a>
+</div>
+{% endblock%}

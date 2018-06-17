@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block page_content %} 
         {% if current_user.is_authenticated %}
-    <div class="container">
-        <table class="table ">
+    <div class="container" style="margin-top:100px;">
+        <table class="table table-striped">
             <tr>
                 {% if current_user.is_admin %}
                 <td>
@@ -29,10 +29,10 @@
                             <a href="{{ url_for('talks.clientes') }}">Clientes</a>
                         </li>
                         <li>
-                            <a href="{{ url_for('talks.funcionario') }}">Funcionarios</a>
+                            <a href="{{ url_for('talks.funcionario') }}">Funcionários</a>
                         </li>
                         <li>
-                            <a href="{{ url_for('talks.vinculacao') }}">FuncionariosXProjetos</a>
+                            <a href="{{ url_for('talks.vinculacao') }}">Funcionários X Projetos</a>
                         </li>
                         <li>
                             <a href="{{ url_for('talks.atividades') }}">Atividades</a>
@@ -43,7 +43,7 @@
                 <td>
                     <ul class="list-unstyled">
                         <li>
-                            <a href="{{ url_for('talks.relatorios') }}">Hora trabalhadas</a>
+                            <a href="{{ url_for('talks.relatorios') }}">Horas trabalhadas</a>
                         </li>
                     </ul>
                 </td>

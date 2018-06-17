@@ -72,6 +72,18 @@ class FuncionarioProjeto(db.Model):
     projeto_id = db.Column(db.Integer, db.ForeignKey('projeto.id'))
     coordenador = db.Column(db.Boolean)
 
+class Lancamento(db.Model):
+    __tablename__ = 'lancamentos'
+    id = db.Column(db.Integer, primary_key=True)
+    projeto_id = db.Column(db.Integer, db.ForeignKey('projeto.id'))
+    atividade_id = db.Column(db.Integer, db.ForeignKey('atividade.id'))
+    funcionario_id = db.Column(db.Integer, db.ForeignKey('funcionario.id'))
+    dataInicio = db.Column(db.Date, nullable=False)
+    horaInicio = db.Column(db.Time, nullable=False)
+    dataFim = db.Column(db.Date, nullable=False)
+    horaFim = db.Column(db.Time, nullable=False)
+    descricao = db.Column(db.String(300), nullable=False)
+
 @login_manager.user_loader
 def load_user(user_id):
     return Funcionario.query.get(int(user_id))

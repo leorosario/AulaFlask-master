@@ -1,23 +1,23 @@
 {% extends "bootstrap/base.html" %} {% block title %}Talks{% endblock %} {% block navbar %}
 
-<a class="navbar-brand" href="{{ url_for('talks.index') }}">Talks</a>
-<ul class="nav navbar-nav">
-    <li>
-        <a href="{{ url_for('talks.home') }}">Home</a>
-    </li>
-    {% if current_user.is_authenticated %}
-    <li>
-        <a href="{{ url_for('talks.user', nome=current_user.nome) }}">Profile</a>
-    </li>
-    <li>
-        <a href="{{ url_for('auth.logout') }}">Logout</a>
-    </li>
-    {% else %}
-    <li>
-        <a href="{{ url_for('auth.login') }}">Login</a>
-    </li>
-    {% endif %}
-</ul>
+
+    <ul class="nav navbar-nav">
+        <li>
+            <a href="{{ url_for('talks.home') }}">Home</a>
+        </li>
+        {% if current_user.is_authenticated %}
+        <li>
+            <a href="{{ url_for('talks.user', nome=current_user.nome) }}">Profile</a>
+        </li>
+        <li>
+            <a href="{{ url_for('auth.logout') }}" style="float: right;">Logout</a>
+        </li>
+        {% else %}
+        <li>
+            <a href="{{ url_for('auth.login') }}">Login</a>
+        </li>
+        {% endif %}
+    </ul>
 {% endblock %} {% for message in get_flashed_messages() %}
 <div class="alert alert-warning">
     <button type="button" class="close" data-dismiss="alert">x</button>
@@ -28,6 +28,6 @@
     {% block page_content %}{% endblock %}
 </div>
 <div class="login" style="margin: 0 auto;width: 400px;margin-top:100px;">
-    {% block login %}{% endblock %}
+    {% block login %} {% endblock %}
 </div>
 {% endblock %}

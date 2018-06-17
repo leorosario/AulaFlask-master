@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
 <div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 100px;border-radius: 10px;">
 <div class="page-header">
-    <h1>Cadastrar Cliente</h1>
+    <h1 style="text-align: center;">Cadastrar Cliente</h1>
 </div>
 {{ wtf.quick_form(form) }}
 {% endblock %}

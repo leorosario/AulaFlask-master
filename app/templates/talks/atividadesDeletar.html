@@ -2,8 +2,13 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
+<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 100px;border-radius: 10px;">
 <div class="page-header">
-    <h1>Deletar Atividade</h1>
+    <h1 style="text-align: center;">Deletar Atividade</h1>
+    <a href="/admin/atividades">
+        <button type="button" class="btn btn-primary btn-lg">
+            <i class="glyphicon glyphicon-chevron-left"></i>Voltar</button>
+    </a>
 </div>
 <dl class="dl-horizontal">
     <dt>Cod atividade</dt>
@@ -12,7 +17,7 @@
     <dd>{{atividade.descricao}}</dd>
 </dl>
 <form action="/admin/atividades/deletar/{{ atividade.id }}" method="post">
-    <input type="submit" value="Deletar" class="btn btn-default"> |
-    <a href="/admin/atividades">Voltar</a>
+    <input type="submit" value="Deletar" class="btn btn-danger"> 
 </form>
 {% endblock %}
+</div>
