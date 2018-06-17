@@ -6,4 +6,12 @@
     <h1>Cadastrar Lancamento</h1>
 </div>
 {{ wtf.quick_form(form) }}
+<br><br>
+<button class="btn" onclick="iniciar()">Iniciar</button>
+<button class="btn" onclick="parar()">Parar</button>
+<br>
+<label id="time"></label>
+<br>
+<button class="btn">Gravar</button>
+<script src="{{url_for('static', filename='lancamento.js')}}"></script>
 {% endblock %}
