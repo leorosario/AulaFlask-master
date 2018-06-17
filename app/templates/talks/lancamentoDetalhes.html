@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
+<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 50px;border-radius: 10px;"></div>
+<div class="page-header">
+    <h1 style="text-align: center;">Detalhes Lancamento</h1>
+    <a href="/lancamento">
+        <button type="button" class="btn btn-primary btn-lg">
+            <i class="glyphicon glyphicon-chevron-left"></i>Voltar</button>
+    </a>
+</div>
+<dl class="dl-horizontal">
+    <dt>Projeto</dt>
+    <dd>{{lancamento.projeto.nome}}</dd>
+    <dt>Atividade</dt>
+    <dd>{{lancamento.atividade.descricao}}</dd>
+    <dt>Funcionario</dt>
+    <dd>{{lancamento.funcionario.nome}}</dd>
+    <dt>Data inicio</dt>
+    <dd>{{lancamento.dataInicio}}</dd>
+    <dt>Hora inicio</dt>
+    <dd>{{lancamento.horaInicio}}</dd>
+    <dt>Data fim</dt>
+    <dd>{{lancamento.dataFim}}</dd>
+    <dt>Hora fim</dt>
+    <dd>{{lancamento.horaFim}}</dd>
+    <dt>Descricao</dt>
+    <dd>{{lancamento.descricao}}</dd>
+</dl>
+<a href="/lancamento/editar/{{ lancamento.id }}">
+    <button class="btn btn-info">
+        <i class="glyphicon glyphicon-pencil"></i>&nbsp;Editar</button>
+</a>
+</div>
+{% endblock %}

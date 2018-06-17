@@ -322,8 +322,7 @@ def vinculacao():
     if current_user.is_admin:
         vinculacoes = FuncionarioProjeto.query.all()
         for vinculacao in vinculacoes:
-            vinculacao.funcionario = Funcionario.query.get(
-            vinculacao.funcionario_id)
+            vinculacao.funcionario = Funcionario.query.get(vinculacao.funcionario_id)
             vinculacao.projeto = Projeto.query.get(vinculacao.projeto_id)
         return render_template('/talks/vinculacao.html', vinculacoes=vinculacoes)
     else:
@@ -396,8 +395,18 @@ def vinculacaoDetalhes(id):
     else:
         return render_template('/talks/notAdmin.html')
 
+@talks.route('/lancamento', methods=['GET', 'POST'])
+@login_required
+def lancamento():
+    lancamentos = Lancamento.query.all()
+    for lancamento in lancamentos:
+        lancamento.funcionario = Funcionario.query.get(lancamento.funcionario_id)
+        lancamento.projeto = Projeto.query.get(lancamento.projeto_id)
+        lancamento.atividade = Atividade.query.get(lancamento.atividade_id)
+    return render_template('/talks/lancamento.html', lancamentos=lancamentos)
 
 @talks.route('/lancamento/cadastrar', methods=['GET', 'POST'])
+@login_required
 def lancamentoCadastrar():
     form = LancamentoForm()
     form.projeto_id.choices = [(projeto.id, projeto.nome)
@@ -413,18 +422,45 @@ def lancamentoCadastrar():
         flash('Sucesso lancamento salvo')
         return redirect(url_for('talks.home'))
     return render_template('/talks/lancamentoCadastrar.html', form=form)
-    
 
+@talks.route('/lancamento/editar/<int:id>', methods=['GET', 'POST'])
+def lancamentoEditar(id):
+    lancamento = Lancamento.query.filter_by(id=id).first()
+    form = LancamentoForm()
+    form.projeto_id.choices = [(projeto.id, projeto.nome) for projeto in Projeto.query.all()]
+    form.atividade_id.choices = [(atividade.id, atividade.descricao) for atividade in Atividade.query.all()]
+    if form.validate_on_submit():
+        form.to_model(lancamento)
+        db.session.commit()
+        flash('Sucesso lancamento salvo.')
+        return redirect(url_for('talks.lancamento'))
+    form.to_form(lancamento)
+    return render_template('/talks/lancamentoEditar.html', form=form)
+
+@talks.route('/lancamento/deletar/<int:id>', methods=['GET', 'POST'])
+def lancamentoDeletar(id):
+    lancamento = Lancamento.query.filter_by(id=id).first()
+    if request.method == "POST":
+        db.session.delete(lancamento)
+        db.session.commit()
+        flash('Sucessolancamento deletado.')
+        return redirect(url_for('talks.lancamento'))
+    lancamento.atividade = Atividade.query.get(lancamento.atividade_id)
+    lancamento.projeto = Projeto.query.get(lancamento.projeto_id)
+    lancamento.funcionario = Funcionario.query.get(lancamento.funcionario_id)
+    return render_template('/talks/lancamentoDeletar.html', lancamento=lancamento)
+
+@talks.route('/lancamento/detalhes/<int:id>', methods=['GET', 'POST'])
+def lancamentoDetalhes(id):
+        lancamento = Lancamento.query.filter_by(id=id).first()
+        lancamento.funcionario = Funcionario.query.get(lancamento.funcionario_id)
+        lancamento.atividade = Atividade.query.get(lancamento.atividade_id)
+        lancamento.projeto = Projeto.query.get(lancamento.projeto_id)
+        return render_template('/talks/lancamentoDetalhes.html', lancamento=lancamento)
 
 @talks.route('/home')
 def home():
     return render_template('/talks/home.html')
-
-
-@talks.route('/lancamento', methods=['GET', 'POST'])
-def lancamentoDeHorass():
-    return render_template('/talks/lancamentoDeHoras.html')
-
 
 @talks.route('/relatorios')
 def relatorios():

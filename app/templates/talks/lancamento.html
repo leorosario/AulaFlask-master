@@ -1,45 +1,52 @@
-{% extends "base.html" %}
-{% block page_content %}
-<table>
-    <tr>
-        <td>
-        <form>
-            <select name="projeto">
-                <option value="1">projeto1</option>
-                <option value="2">projeto2</option>
-                <option value="3">projeto3</option>
-            </select>
-            <br>
-            <label>Data/Hora inicio</label><input name="dataInicio" type="date"/> <input name="horaInicio" type="time" /><br>
-            <label>Data/Hora fim</label><input name="dataFim" type="date"/><input name="horaFim" type="time" /><br>
-            <select name="atividade">
-                <option value="1">atividade1</option>
-                <option value="2">atividade2</option>
-                <option value="3">atividade3</option>
-            </select>
-            <br>
-            <textarea name="descricao" rows="10" cols="30"> </textarea>
-            <br>
-            <input type="submit" value="Gravar" />
-        </form>
-        <table>
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
+<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 50px;border-radius: 10px;">
+    <div class="page-header">
+        <h1 style="text-align: center;">Lancamentos</h1>
+    </div>
+    <a href="/lancamento/cadastrar">
+        <button class="btn btn-success btn-lg" style="float:right;">
+            <i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Cadastrar</button>
+    </a>
+    <table class="table">
+        <tbody>
             <tr>
-                <td>Editar ou...|</td>
-                <td>Data Ini...|</td>
-                <td>Hora Inic...|</td>
-                <td>Data Fim|</td>
-                <td>Hora Fim|</td>
-                <td>Total Ho...</td>
+                <td>
+                    <h3>Projeto</h3>
+                </td>
+                <td>
+                    <h3>Funcionario</h3>
+                </td>
+                <td>
+                    <h3>Atividade</h3>
+                </td>
+                <td>
+                    <h3>Descricao</h3>
+                </td>
+                <th></th>
             </tr>
-        </table>
-        </td>
-        <td>
-            <button>Iniciar</button><button>Parar</button>
-            <br>
-            <label>Tempo trabalhado: <span></span></label>
-            <br>
-            <button>Gravar</button>
-        </td>
-    </tr>
-</table>
+            {% for lancamento in lancamentos %}
+            <tr>
+                <td>{{ lancamento.projeto.nome }}</td>
+                <td>{{ lancamento.funcionario.nome }}</td>
+                <td>{{ lancamento.atividade.descricao }}</td>
+                <td>{{ lancamento.descricao }}</td>
+                <td>
+                    <a href="/lancamento/editar/{{ lancamento.id }}">
+                        <button class="btn btn-primary">
+                            <i class="glyphicon glyphicon-pencil"></i>&nbsp;Editar</button>
+                    </a>
+                    <a href="/lancamento/detalhes/{{ lancamento.id }}">
+                        <button class="btn btn-info">
+                            <i class="glyphicon glyphicon-info-sign"></i>&nbsp;Detalhes</button>
+                    </a>
+                    <a href="/lancamento/deletar/{{ lancamento.id }}">
+                        <button class="btn btn-danger">
+                            <i class="glyphicon glyphicon-trash"></i>&nbsp;Deletar</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

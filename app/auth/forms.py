@@ -142,7 +142,7 @@ class LancamentoForm(FlaskForm):
         self.atividade_id.data = lancamento.atividade_id
         self.dataInicio.data = lancamento.dataInicio
         self.horaInicio.data = lancamento.horaInicio
-        self.dataFim.data = lancamento.dataFIM
+        self.dataFim.data = lancamento.dataFim
         self.horaFim.data = lancamento.horaFim
         self.descricao.data = lancamento.descricao
 
