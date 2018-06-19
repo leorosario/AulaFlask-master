@@ -7,11 +7,10 @@
 </div>
 {{ wtf.quick_form(form) }}
 <br><br>
-<button class="btn" onclick="iniciar()">Iniciar</button>
-<button class="btn" onclick="parar()">Parar</button>
+<button id="iniciar" class="btn" onclick="iniciar()">Iniciar</button>
+<button id="parar" class="btn" style="display: none;" onclick="parar()">Parar</button>
 <br>
 <label id="time"></label>
 <br>
-<button class="btn">Gravar</button>
 <script src="{{url_for('static', filename='lancamento.js')}}"></script>
 {% endblock %}

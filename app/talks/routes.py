@@ -409,10 +409,8 @@ def lancamento():
 @login_required
 def lancamentoCadastrar():
     form = LancamentoForm()
-    form.projeto_id.choices = [(projeto.id, projeto.nome)
-                               for projeto in Projeto.query.all()]
-    form.atividade_id.choices = [
-        (atividade.id, atividade.descricao) for atividade in Atividade.query.all()]
+    form.projeto_id.choices = [(projeto.id, projeto.nome) for projeto in Projeto.query.all()]
+    form.atividade_id.choices = [(atividade.id, atividade.descricao) for atividade in Atividade.query.all()]
     if form.validate_on_submit():
         lancamento = Lancamento()
         form.to_model(lancamento)
@@ -422,6 +420,19 @@ def lancamentoCadastrar():
         flash('Sucesso lancamento salvo')
         return redirect(url_for('talks.home'))
     return render_template('/talks/lancamentoCadastrar.html', form=form)
+
+@talks.route('/lancamentoAjax', methods=['GET', 'POST'])
+@login_required
+def lancamentoAjax():
+    obj = request.json;
+    form = LancamentoForm;
+    form.to_form(obj);
+    lancamento = Lancamento()
+    form.to_model(lancamento)
+    lancamento.funcionario_id = current_user.id
+    db.session.add(lancamento)
+    db.session.commit()
+    return redirect(url_for('talks.home'))
 
 @talks.route('/lancamento/editar/<int:id>', methods=['GET', 'POST'])
 def lancamentoEditar(id):
