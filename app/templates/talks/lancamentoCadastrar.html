@@ -1,16 +1,24 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
 
-{% block page_content %}
-<div class="page-header">
-    <h1>Cadastrar Lancamento</h1>
+<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 50px;border-radius: 10px;">
+    <div class="page-header">
+        <h1 style="text-align: center;">Cadastrar Lancamento</h1>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            {{ wtf.quick_form(form) }}
+        </div>
+        <br>
+        <br>
+        <div class="col-xs-12 col-sm-6" style="text-align: center;">
+            <button id="iniciar" class="btn btn-success btn-lg" onclick="iniciar()">Iniciar</button>
+            <button id="parar" class="btn btn-danger btn-lg" style="display: none;" onclick="parar()">Parar</button>
+            <br><br>
+            <label>Tempo trabalhado: </label>
+            <label id="time"></label>
+            <br>
+            <script src="{{url_for('static', filename='lancamento.js')}}"></script>
+        </div>
+    </div>
+    {% endblock %}
 </div>
-{{ wtf.quick_form(form) }}
-<br><br>
-<button id="iniciar" class="btn" onclick="iniciar()">Iniciar</button>
-<button id="parar" class="btn" style="display: none;" onclick="parar()">Parar</button>
-<br>
-<label id="time"></label>
-<br>
-<script src="{{url_for('static', filename='lancamento.js')}}"></script>
-{% endblock %}

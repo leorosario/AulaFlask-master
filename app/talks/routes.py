@@ -398,7 +398,10 @@ def vinculacaoDetalhes(id):
 @talks.route('/lancamento', methods=['GET', 'POST'])
 @login_required
 def lancamento():
-    lancamentos = Lancamento.query.all()
+    if(current_user.is_admin):
+        lancamentos = Lancamento.query.all()
+    else:
+        lancamentos = Lancamento.query.filter(Lancamento.funcionario_id == current_user.id).all()
     for lancamento in lancamentos:
         lancamento.funcionario = Funcionario.query.get(lancamento.funcionario_id)
         lancamento.projeto = Projeto.query.get(lancamento.projeto_id)
@@ -409,7 +412,7 @@ def lancamento():
 @login_required
 def lancamentoCadastrar():
     form = LancamentoForm()
-    form.projeto_id.choices = [(projeto.id, projeto.nome) for projeto in Projeto.query.all()]
+    form.projeto_id.choices = [(projeto.id, projeto.nome) for projeto in Projeto.query.join(FuncionarioProjeto, Projeto.id==FuncionarioProjeto.projeto_id).add_columns(Projeto.id, Projeto.nome, FuncionarioProjeto.funcionario_id).filter(FuncionarioProjeto.funcionario_id == current_user.id).all()]
     form.atividade_id.choices = [(atividade.id, atividade.descricao) for atividade in Atividade.query.all()]
     if form.validate_on_submit():
         lancamento = Lancamento()
@@ -418,25 +421,14 @@ def lancamentoCadastrar():
         db.session.add(lancamento)
         db.session.commit()
         flash('Sucesso lancamento salvo')
-        return redirect(url_for('talks.home'))
+        return redirect(url_for('talks.lancamento'))
     return render_template('/talks/lancamentoCadastrar.html', form=form)
-
-@talks.route('/lancamentoAjax', methods=['GET', 'POST'])
-@login_required
-def lancamentoAjax():
-    obj = request.json;
-    form = LancamentoForm;
-    form.to_form(obj);
-    lancamento = Lancamento()
-    form.to_model(lancamento)
-    lancamento.funcionario_id = current_user.id
-    db.session.add(lancamento)
-    db.session.commit()
-    return redirect(url_for('talks.home'))
 
 @talks.route('/lancamento/editar/<int:id>', methods=['GET', 'POST'])
 def lancamentoEditar(id):
     lancamento = Lancamento.query.filter_by(id=id).first()
+    if((lancamento.funcionario_id != current_user.id) and (not current_user.is_admin)):
+        return redirect(url_for('talks.lancamento'))
     form = LancamentoForm()
     form.projeto_id.choices = [(projeto.id, projeto.nome) for projeto in Projeto.query.all()]
     form.atividade_id.choices = [(atividade.id, atividade.descricao) for atividade in Atividade.query.all()]
@@ -451,6 +443,8 @@ def lancamentoEditar(id):
 @talks.route('/lancamento/deletar/<int:id>', methods=['GET', 'POST'])
 def lancamentoDeletar(id):
     lancamento = Lancamento.query.filter_by(id=id).first()
+    if ((lancamento.funcionario_id != current_user.id) and (not current_user.is_admin)):
+        return redirect(url_for('talks.lancamento'))
     if request.method == "POST":
         db.session.delete(lancamento)
         db.session.commit()
@@ -464,6 +458,8 @@ def lancamentoDeletar(id):
 @talks.route('/lancamento/detalhes/<int:id>', methods=['GET', 'POST'])
 def lancamentoDetalhes(id):
         lancamento = Lancamento.query.filter_by(id=id).first()
+        if ((lancamento.funcionario_id != current_user.id) and (not current_user.is_admin)):
+            return redirect(url_for('talks.lancamento'))
         lancamento.funcionario = Funcionario.query.get(lancamento.funcionario_id)
         lancamento.atividade = Atividade.query.get(lancamento.atividade_id)
         lancamento.projeto = Projeto.query.get(lancamento.projeto_id)

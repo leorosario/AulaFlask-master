@@ -1,15 +1,19 @@
 var stop;
 var dataInicio;
 var horaInicio;
+var projeto;
+var atividade;
+var descricao;
 var dataFim;
 var horaFim;
 function iniciar(){
     var data = new Date();
-    var dia     = ("0" + data.getDate()).slice(-2);           // dia com 2 digitos.
-    var mes     = ("0" + (data.getMonth() + 1)).slice(-2)     // mês com 2 digitos
+    var dia     = ("0" + data.getDate()).slice(-2);           // 1-31
+    var mes     = ("0" + (data.getMonth() + 1)).slice(-2)          // 0-11 (zero=janeiro)
     var ano4    = data.getFullYear();       // 4 dígitos
-    var hora    = data.getHours();          // 0-23
+    var hora    = ("0" + data.getHours()).slice(-2);          // hora com dois digitos
     var min     = data.getMinutes();        // 0-59
+        // Formata a data e a hora (note o mês + 1)
     dataInicio = ano4 + '-' + mes + '-' + dia;
     horaInicio = hora + ':' + min;
     $("#dataInicio").val(dataInicio);
@@ -41,7 +45,7 @@ function parar(){
     var dia     = ("0" + data.getDate()).slice(-2);           // 1-31
     var mes     = ("0" + (data.getMonth() + 1)).slice(-2)          // 0-11 (zero=janeiro)
     var ano4    = data.getFullYear();       // 4 dígitos
-    var hora    = data.getHours();          // 0-23
+    var hora    = ("0" + data.getHours()).slice(-2);          // hora com dois digitos
     var min     = data.getMinutes();        // 0-59
         // Formata a data e a hora (note o mês + 1)
     dataFim = ano4 + '-' + mes + '-' + dia;
