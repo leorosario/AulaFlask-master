@@ -30,7 +30,7 @@ class User(db.Model):
 class Cliente(db.Model):
     __tablename__ = 'cliente'
     id = db.Column(db.Integer, primary_key=True)
-    cpfcnpj = db.Column(db.Integer, nullable=False)
+    cpfcnpj = db.Column(db.Integer, nullable=False, unique=True, index=True)
     nome = db.Column(db.String(100), nullable=False)
 
 class Funcionario(UserMixin, db.Model):

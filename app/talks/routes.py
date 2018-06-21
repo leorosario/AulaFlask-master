@@ -70,6 +70,7 @@ def atividadesEditar(id):
     if current_user.is_admin:
         atividade = Atividade.query.filter_by(id=id).first()
         form = AtividadeForm()
+        form.id.validators = "";
         if form.validate_on_submit():
             form.id.data = atividade.id
             form.to_model(atividade)
@@ -280,6 +281,7 @@ def editarProjeto(id):
     if current_user.is_admin:
         projeto = Projeto.query.filter_by(id=id).first()
         form = ProjetoForm()
+        form.id.validators = "";
         form.cliente_id.choices = [(cliente.id, cliente.nome)
                                for cliente in Cliente.query.all()]
         if form.validate_on_submit():
@@ -356,6 +358,7 @@ def vinculacaoEditar(id):
     if current_user.is_admin:
         funcionarioProjeto = FuncionarioProjeto.query.filter_by(id=id).first()
         form = FuncionarioProjetoForm()
+        form.id.validators = "";
         form.funcionario_id.choices = [
             (funcionario.id, funcionario.nome) for funcionario in Funcionario.query.all()]
         form.projeto_id.choices = [(projeto.id, projeto.nome)

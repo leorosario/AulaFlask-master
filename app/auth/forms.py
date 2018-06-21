@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import IntegerField, StringField, TextAreaField, PasswordField, BooleanField, SubmitField, SelectField, validators
-from wtforms.validators import DataRequired, Length, Email
+from wtforms.validators import DataRequired, Length, Email, NumberRange
 from wtforms_components import TimeField
 from wtforms.fields.html5 import DateField
 from .. models import Cliente
@@ -20,7 +20,7 @@ class ClientForm(FlaskForm):
     submit = SubmitField('Cadastrar')
 
 class ClienteForm(FlaskForm):
-    cpfcnpj = IntegerField('Cpf/Cnpj', validators=[DataRequired()])
+    cpfcnpj = IntegerField('Cpf/Cnpj', validators=[DataRequired(), NumberRange(min=1, max=99999999999999, message="No maximo 14 digitos")])
     nome = StringField('Nome:', validators=[DataRequired(), Length(2, 20)])
     submit = SubmitField('Gravar')
 
