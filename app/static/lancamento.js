@@ -12,7 +12,7 @@ function iniciar(){
     var mes     = ("0" + (data.getMonth() + 1)).slice(-2)          // 0-11 (zero=janeiro)
     var ano4    = data.getFullYear();       // 4 dígitos
     var hora    = ("0" + data.getHours()).slice(-2);          // hora com dois digitos
-    var min     = data.getMinutes();        // 0-59
+    var min     = ("0" + data.getMinutes()).slice(-2);        // minutos com dois digitos
         // Formata a data e a hora (note o mês + 1)
     dataInicio = ano4 + '-' + mes + '-' + dia;
     horaInicio = hora + ':' + min;
@@ -46,7 +46,7 @@ function parar(){
     var mes     = ("0" + (data.getMonth() + 1)).slice(-2)          // 0-11 (zero=janeiro)
     var ano4    = data.getFullYear();       // 4 dígitos
     var hora    = ("0" + data.getHours()).slice(-2);          // hora com dois digitos
-    var min     = data.getMinutes();        // 0-59
+    var min     = ("0" + data.getMinutes()).slice(-2);        // 0-59
         // Formata a data e a hora (note o mês + 1)
     dataFim = ano4 + '-' + mes + '-' + dia;
     horaFim = hora + ':' + min;

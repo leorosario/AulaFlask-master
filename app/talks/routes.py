@@ -71,6 +71,7 @@ def atividadesEditar(id):
         atividade = Atividade.query.filter_by(id=id).first()
         form = AtividadeForm()
         if form.validate_on_submit():
+            form.id.data = atividade.id
             form.to_model(atividade)
             db.session.commit()
             flash('Sucesso atividade salvo.')
@@ -282,6 +283,7 @@ def editarProjeto(id):
         form.cliente_id.choices = [(cliente.id, cliente.nome)
                                for cliente in Cliente.query.all()]
         if form.validate_on_submit():
+            form.id.data = projeto.id
             form.to_model(projeto)
             db.session.commit()
             flash('Sucesso cliente salvo.')
@@ -359,6 +361,7 @@ def vinculacaoEditar(id):
         form.projeto_id.choices = [(projeto.id, projeto.nome)
                                for projeto in Projeto.query.all()]
         if form.validate_on_submit():
+            form.id.data = funcionarioProjeto.id
             form.to_model(funcionarioProjeto)
             db.session.commit()
             flash('Sucesso vinculacao salva.')
