@@ -1,62 +1,4 @@
-{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
-<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 50px;border-radius: 10px;">
-    <div class="page-header">
-        <h1 style="text-align: center;">Projetos</h1>
-    </div>
-    <form>
-        <input id="pesquisar" name="pesquisar" type="search"/>
-        <input type="submit" value="Pesquisar"/>
-    </form>
-    <label>
-        <a href="/admin/projeto/cadastrar">
-            <button class="btn btn-success btn-lg" style="float:right;">
-                <i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Cadastrar</button>
-        </a>
-    </label>
-    <table id="listaProjetos" class="table">
-        <tbody>
-            <tr>
-                <td><h3>Nome Projeto</h3></td>
-                <td><h3>Cliente</h3></td>
-                <th></th>
-            </tr>
-
-            {% for projeto in projetos %}
-                <tr>
-                    <td>{{ projeto.nome }}</td>
-                    <td>{{ projeto.cliente.nome }}</td>
-                    <td>
-                        <a href="/admin/projeto/editar/{{ projeto.id }}">
-                            <button class="btn btn-primary">
-                                <i class="glyphicon glyphicon-pencil"></i>&nbsp;Editar</button>
-                        </a>
-                        <a href="/admin/projeto/detalhes/{{ projeto.id }}">
-                            <button class="btn btn-info">
-                                <i class="glyphicon glyphicon-info-sign"></i>&nbsp;Detalhes</button>
-                        </a>
-                        <a href="/admin/projeto/deletar/{{ projeto.id}}">
-                            <button class="btn btn-danger">
-                                <i class="glyphicon glyphicon-trash"></i>&nbsp;Deletar</button>
-                        </a>
-                    </td>
-
-                </tr>
-            {% endfor %}
-
-        </tbody>
-    </table>
-    <!-- <script src="{{url_for('static', filename='pesquisaProjeto.js')}}"></script> -->
-    <script>
-    var projetos = [];
-    var i = 0;
-    {% for projeto in projetos %}
-        projetos[i] = {id: "", nome: "", cliente: ""};
-        projetos[i].id = {{projeto.id}};
-        projetos[i].nome = "{{projeto.nome}}";
-        projetos[i].cliente = "{{projeto.cliente.nome}}";
-        i++;
-    {% endfor %}
-    $('#pesquisar').keyup(function(){
+$('#pesquisar').keyup(function(){
                     var $this = $(this);
                     var pesquisa = $this.val();
                     console.log(pesquisa);
@@ -97,7 +39,6 @@
 
                     if(pesquisa.length == 0){
                         for(var j = 0; j < projetos.length; j++){
-                            console.log('append');
                             achou = true;
                             $("#listaProjetos").append(
                             "<tbody>"+
@@ -134,9 +75,3 @@
                         $("#listaProjetos").html("<tbody></tbody>");
                     }
                 });
-
-
-
-    </script>
-    {% endblock %}
-</div>

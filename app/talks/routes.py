@@ -250,7 +250,11 @@ def detalhesFuncionario(id):
 @talks.route('/admin/projeto', methods=['GET', 'POST'])
 def projeto():
     if current_user.is_admin:
-        projetos = Projeto.query.all()
+        pesquisar = request.args.get('pesquisar')
+        if(pesquisar == None):
+            projetos = Projeto.query.all()
+        else:
+            projetos = Projeto.query.filter_by(id = 1).first()
         for projeto in projetos:
             projeto.cliente = Cliente.query.get(projeto.cliente_id)
         return render_template('/talks/projeto.html', projetos=projetos)
