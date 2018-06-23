@@ -11,6 +11,7 @@ from ..auth.forms import ProjetoForm
 from ..auth.forms import FuncionarioProjetoForm
 from ..auth.forms import AlterarSenhaForm
 from ..auth.forms import LancamentoForm
+from ..talks.classes import MinhasHoras
 from ..models import User, Cliente, Funcionario, Atividade, Projeto, FuncionarioProjeto, Lancamento
 import datetime
 
@@ -668,8 +669,72 @@ def home():
     return render_template('/talks/home.html')
 
 @talks.route('/relatorios')
+@login_required
 def relatorios():
-    return render_template('/talks/relatorios.html')
+    coordenador = False
+    projetos = Projeto.query.join(FuncionarioProjeto, Projeto.id == FuncionarioProjeto.projeto_id).add_columns(
+        Projeto.id, Projeto.nome, FuncionarioProjeto.funcionario_id).filter(
+        FuncionarioProjeto.funcionario_id == current_user.id).filter(FuncionarioProjeto.coordenador == True).all()
+    for projeto in projetos:
+        coordenador = True
+    return render_template('/talks/relatorios.html', coordenador=coordenador)
+
+@talks.route('/relatorios/minhashoras')
+@login_required
+def minhasHoras():
+    relatorios = []
+    achou = False
+    lancamentos = Lancamento.query.filter_by(funcionario_id = current_user.id).all()
+    projetos = Projeto.query.join(FuncionarioProjeto, Projeto.id==FuncionarioProjeto.projeto_id).add_columns(Projeto.id, Projeto.nome, FuncionarioProjeto.funcionario_id).filter(FuncionarioProjeto.funcionario_id == current_user.id).all()
+    for projeto in projetos:
+        for lan in lancamentos:
+            if(lan.projeto_id == projeto.id):
+                for relatorio in relatorios:
+                    if(relatorio.projeto_id == lan.projeto_id):
+                        achou = True
+                        relatorio.horas = relatorio.horas + lan.horasTrabalhadas
+                        break
+                    achou = False
+            if ((not achou) and (lan.projeto_id == projeto.id)):
+                NovoRelatorio = MinhasHoras()
+                NovoRelatorio.horas = lan.horasTrabalhadas
+                NovoRelatorio.projeto_id = lan.projeto_id
+                NovoRelatorio.nomeProj = Projeto.query.get(NovoRelatorio.projeto_id).nome
+                relatorios.append(NovoRelatorio)
+            achou = False
+    return render_template('/talks/minhasHoras.html', relatorios = relatorios)
+
+@talks.route('/relatorios/equipehoras')
+@login_required
+def equipeHoras():
+    relatorios = []
+    achou = False
+    coordenador = False
+    lancamentos = Lancamento.query.all()
+    if(not current_user.is_admin):
+        projetos = Projeto.query.join(FuncionarioProjeto, Projeto.id==FuncionarioProjeto.projeto_id).add_columns(Projeto.id, Projeto.nome, FuncionarioProjeto.funcionario_id).filter(FuncionarioProjeto.funcionario_id == current_user.id).filter(FuncionarioProjeto.coordenador == True).all()
+    else:
+        projetos = Projeto.query.all()
+    for projeto in projetos:
+        coordenador = True
+        for lan in lancamentos:
+            if(lan.projeto_id == projeto.id):
+                for relatorio in relatorios:
+                    if(relatorio.projeto_id == lan.projeto_id):
+                        achou = True
+                        relatorio.horas = relatorio.horas + lan.horasTrabalhadas
+                        break
+                    achou = False
+            if ((not achou) and (lan.projeto_id == projeto.id)):
+                NovoRelatorio = MinhasHoras()
+                NovoRelatorio.horas = lan.horasTrabalhadas
+                NovoRelatorio.projeto_id = lan.projeto_id
+                NovoRelatorio.nomeProj = Projeto.query.get(NovoRelatorio.projeto_id).nome
+                relatorios.append(NovoRelatorio)
+            achou = False
+    if(not coordenador):
+        return render_template('/talks/notAdmin.html')
+    return render_template('/talks/equipeHoras.html', relatorios = relatorios)
 
 # @talks.route('/cliente', methods = ['GET', 'POST'])
 # def cliente():

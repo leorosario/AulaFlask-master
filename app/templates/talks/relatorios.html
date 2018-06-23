@@ -1,14 +1,9 @@
 {% extends "base.html" %} 
-{% block page_content %} 
-<html>
-    <head>
-        <body>
-            
-<br><br><br><br><br><br>
-<button type="button">Minhas horas trabalhadas</button>
+{% block page_content %}
+<a href="{{ url_for('talks.minhasHoras') }}">Minhas horas trabalhadas</a>
 <br><br>
-<button type="button">Horas trabalhadas pela equipe</button>
-        </body>
-    </head>
+{%if coordenador or current_user.is_admin%}
+    <a href="{{ url_for('talks.equipeHoras') }}">Horas Trabalhadas pela equipe</a>
+{% endif %}
 </html>
 {% endblock %}
