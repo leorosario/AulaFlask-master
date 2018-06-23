@@ -422,9 +422,8 @@ def lancamento():
     else:
         lancamentos = Lancamento.query.filter(Lancamento.funcionario_id == current_user.id).all()
     for lancamento in lancamentos:
-        lancamento.funcionario = Funcionario.query.get(lancamento.funcionario_id)
-        lancamento.projeto = Projeto.query.get(lancamento.projeto_id)
-        lancamento.atividade = Atividade.query.get(lancamento.atividade_id)
+        lancamento.dataInicio = datetime.datetime.strftime(lancamento.dataInicio, '%d/%m/%Y')
+        lancamento.dataFim = datetime.datetime.strftime(lancamento.dataFim, '%d/%m/%Y')
     return render_template('/talks/lancamento.html', lancamentos=lancamentos)
 
 @talks.route('/lancamento/cadastrar', methods=['GET', 'POST'])
@@ -648,6 +647,8 @@ def lancamentoDeletar(id):
     lancamento.atividade = Atividade.query.get(lancamento.atividade_id)
     lancamento.projeto = Projeto.query.get(lancamento.projeto_id)
     lancamento.funcionario = Funcionario.query.get(lancamento.funcionario_id)
+    lancamento.dataInicio = datetime.datetime.strftime(lancamento.dataInicio, '%d/%m/%Y')
+    lancamento.dataFim = datetime.datetime.strftime(lancamento.dataFim, '%d/%m/%Y')
     return render_template('/talks/lancamentoDeletar.html', lancamento=lancamento)
 
 @talks.route('/lancamento/detalhes/<int:id>', methods=['GET', 'POST'])
@@ -658,6 +659,8 @@ def lancamentoDetalhes(id):
         lancamento.funcionario = Funcionario.query.get(lancamento.funcionario_id)
         lancamento.atividade = Atividade.query.get(lancamento.atividade_id)
         lancamento.projeto = Projeto.query.get(lancamento.projeto_id)
+        lancamento.dataInicio = datetime.datetime.strftime(lancamento.dataInicio, '%d/%m/%Y')
+        lancamento.dataFim = datetime.datetime.strftime(lancamento.dataFim, '%d/%m/%Y')
         return render_template('/talks/lancamentoDetalhes.html', lancamento=lancamento)
 
 @talks.route('/home')

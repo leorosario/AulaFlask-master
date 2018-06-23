@@ -15,25 +15,33 @@
         <tbody>
             <tr>
                 <td>
-                    <h3>Projeto</h3>
+                    <h3>Código</h3>
                 </td>
                 <td>
-                    <h3>Funcionario</h3>
+                    <h3>Data Inicio</h3>
                 </td>
                 <td>
-                    <h3>Atividade</h3>
+                    <h3>Hora Inicio</h3>
                 </td>
                 <td>
-                    <h3>Descricao</h3>
+                    <h3>Data Fim</h3>
+                </td>
+                <td>
+                    <h3>Hora Fim</h3>
+                </td>
+                <td>
+                    <h3>Total Horas</h3>
                 </td>
                 <th></th>
             </tr>
             {% for lancamento in lancamentos %}
             <tr>
-                <td>{{ lancamento.projeto.nome }}</td>
-                <td>{{ lancamento.funcionario.nome }}</td>
-                <td>{{ lancamento.atividade.descricao }}</td>
-                <td>{{ lancamento.descricao }}</td>
+                <td>{{ lancamento.id }}</td>
+                <td>{{ lancamento.dataInicio }}</td>
+                <td>{{ lancamento.horaInicio }}</td>
+                <td>{{ lancamento.dataFim }}</td>
+                <td>{{ lancamento.horaFim }}</td>
+                <td>{{ lancamento.horasTrabalhadas }}</td>
                 <td>
                     <a href="/lancamento/editar/{{ lancamento.id }}">
                         <button class="btn btn-primary">
@@ -57,11 +65,13 @@
     var lancamentos = [];
     var i = 0;
     {% for lancamento in lancamentos %}
-        lancamentos[i] = {id: "", projeto: "", funcionario: "", projeto: "", coordenador: ""};
+        lancamentos[i] = {id: "", dataInicio: "", horaInicio: "", dataFim: "", horaFim: "", horasTrabalhadas: ""};
         lancamentos[i].id = {{lancamento.id}};
-        lancamentos[i].funcionario = "{{lancamento.funcionario.nome}}";
-        lancamentos[i].projeto = "{{lancamento.projeto.nome}}";
-        lancamentos[i].descricao = "{{lancamento.descricao}}";
+        lancamentos[i].dataInicio = "{{lancamento.dataInicio}}";
+        lancamentos[i].horaInicio = "{{lancamento.horaInicio}}";
+        lancamentos[i].dataFim = "{{lancamento.dataFim}}";
+        lancamentos[i].horaFim = "{{lancamento.horaFim}}";
+        lancamentos[i].horasTrabalhadas = "{{lancamento.horasTrabalhadas}}";
         i++;
     {% endfor %}
 </script>
