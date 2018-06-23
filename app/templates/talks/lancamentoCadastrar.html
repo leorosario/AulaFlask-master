@@ -4,6 +4,15 @@
     <div class="page-header">
         <h1 class="text-center">Cadastrar Lancamento</h1>
     </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul>
+           {% for message in messages %}
+           <li>{{ message }}</li>
+           {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
     <div class="row">
         <div class="col-xs-12 col-sm-6">
             {{ wtf.quick_form(form) }}

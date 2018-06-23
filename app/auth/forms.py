@@ -126,7 +126,6 @@ class LancamentoForm(FlaskForm):
     horaFim = TimeField('Hora Fim', validators=[DataRequired()])
     atividade_id = SelectField('Atividade:', coerce=int, validators=[DataRequired()])
     descricao = TextAreaField('Descrição:', validators=[DataRequired(), Length(6, 300)])
-    horasTrabalhadas = HiddenField('Horas Trabalhadas:', validators=[DataRequired()])
     submit = SubmitField('Gravar')
 
     def to_model(self, lancamento):
@@ -137,7 +136,6 @@ class LancamentoForm(FlaskForm):
         lancamento.dataFim = self.dataFim.data
         lancamento.horaFim = self.horaFim.data
         lancamento.descricao = self.descricao.data
-        lancamento.horasTrabalhadas = self.descricao.horasTrabalhadas
 
     def to_form(self, lancamento):
         self.projeto_id.data = lancamento.projeto_id
@@ -147,7 +145,6 @@ class LancamentoForm(FlaskForm):
         self.dataFim.data = lancamento.dataFim
         self.horaFim.data = lancamento.horaFim
         self.descricao.data = lancamento.descricao
-        self.descricao.horasTrabalhadas = lancamento.horasTrabalhadas
 
 class AlterarSenhaForm(FlaskForm):
     passwordAtual = PasswordField('Senha Atual', validators=[DataRequired()])

@@ -12,6 +12,7 @@ from ..auth.forms import FuncionarioProjetoForm
 from ..auth.forms import AlterarSenhaForm
 from ..auth.forms import LancamentoForm
 from ..models import User, Cliente, Funcionario, Atividade, Projeto, FuncionarioProjeto, Lancamento
+import datetime
 
 
 @talks.route('/')
@@ -344,6 +345,11 @@ def vinculacaoCadastrar():
         if form.validate_on_submit():
             funcionarioProjeto = FuncionarioProjeto()
             form.to_model(funcionarioProjeto)
+            vinculacoes = FuncionarioProjeto.query.all()
+            for vinc in vinculacoes:
+                if((vinc.funcionario_id == funcionarioProjeto.funcionario_id) and (vinc.projeto_id == funcionarioProjeto.projeto_id)):
+                    flash('Esse funcionario já possui vinculo com esse projeto')
+                    return render_template('/talks/vinculacaoCadastrar.html', form=form)
             db.session.add(funcionarioProjeto)
             db.session.commit()
             flash('Sucesso vinculacao salva')
@@ -366,6 +372,13 @@ def vinculacaoEditar(id):
         if form.validate_on_submit():
             form.id.data = funcionarioProjeto.id
             form.to_model(funcionarioProjeto)
+            vinculacoes = FuncionarioProjeto.query.all()
+            for vinc in vinculacoes:
+                if(vinc.id != funcionarioProjeto.id):
+                    if ((vinc.funcionario_id == funcionarioProjeto.funcionario_id) and (
+                            vinc.projeto_id == funcionarioProjeto.projeto_id)):
+                        flash('Esse funcionario já possui vinculo com esse projeto')
+                        return render_template('/talks/vinculacaoEditar.html', form=form)
             db.session.commit()
             flash('Sucesso vinculacao salva.')
             return redirect(url_for('talks.vinculacao'))
@@ -424,6 +437,95 @@ def lancamentoCadastrar():
         lancamento = Lancamento()
         form.to_model(lancamento)
         lancamento.funcionario_id = current_user.id
+        #Calcula quantidade de dias trabalhados
+        datahoraInicio = str(lancamento.dataInicio) + " " + str(lancamento.horaInicio)
+        datahoraFim = str(lancamento.dataFim) + " " + str(lancamento.horaFim)
+        segundos = (datetime.datetime.strptime(datahoraFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+            datahoraInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+        horas = segundos / 3600;
+        lancamento.horasTrabalhadas = horas;
+        if (lancamento.horasTrabalhadas <= 0):
+            flash('data hora inicio maior que data hora Fim ou iguais')
+            return render_template('/talks/lancamentoCadastrar.html', form=form)
+        if (lancamento.horasTrabalhadas > 10):
+            flash('Você não pode trabalhar mais de 10 horas.')
+            return render_template('/talks/lancamentoCadastrar.html', form=form)
+        lancamentos = Lancamento.query.filter_by(funcionario_id=lancamento.funcionario_id)
+        quantHorasDataInicio = 0
+        quantHorasDataFim = 0
+        podeRegistrar = True
+        if(lancamento.dataInicio == lancamento.dataFim):
+            tempoInicio = str(lancamento.dataInicio) + " " + str(lancamento.horaInicio)
+            tempoFim = str(lancamento.dataFim) + " " + str(lancamento.horaFim)
+            seg = (datetime.datetime.strptime(tempoFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+                tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+            horasLan = seg / 3600;
+            quantInicio = horasLan
+            quantFim = horasLan
+        else:
+            tempoInicio = str(lancamento.dataInicio) + " " + str(lancamento.horaInicio)
+            tempoFim = str(lancamento.dataInicio) + " 23:59:59"
+            seg = (datetime.datetime.strptime(tempoFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+                tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+            horasLan = seg / 3600;
+            quantInicio = horasLan
+
+            tempoInicio = str(lancamento.dataFim) + " " + " 00:00:00"
+            tempoFim = str(lancamento.dataFim) + " " + str(lancamento.horaFim)
+            seg = (datetime.datetime.strptime(tempoFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+                tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+            horasLan = seg / 3600;
+            quantFim = horasLan
+
+        for lan in lancamentos:
+            if((lancamento.dataInicio == lan.dataInicio) and (lan.dataInicio == lan.dataFim)):
+                quantHorasDataInicio = quantHorasDataInicio + lan.horasTrabalhadas
+
+            if((lancamento.dataFim == lan.dataInicio) and (lan.dataInicio == lan.dataFim)):
+                quantHorasDataFim = quantHorasDataFim + lan.horasTrabalhadas
+
+            if((lancamento.dataInicio == lan.dataInicio) and (lan.dataInicio != lan.dataFim)):
+                tempoInicio = str(lan.dataInicio) + " " + str(lan.horaInicio)
+                tempoFim = str(lan.dataInicio) + " 23:59:59"
+                seg = (datetime.datetime.strptime(tempoFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+                    tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+                horasLan = seg/3600;
+                quantHorasDataInicio = quantHorasDataInicio + horasLan
+
+            if ((lancamento.dataInicio == lan.dataFim) and (lan.dataInicio != lan.dataFim)):
+                tempoInicio = str(lan.dataFim) + " 00:00:00"
+                tempoFim = str(lan.dataFim) + " " + str(lan.horaFim)
+                seg = (datetime.datetime.strptime(tempoFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+                    tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+                horasLan = seg / 3600;
+                quantHorasDataInicio = quantHorasDataInicio + horasLan
+
+            if ((lancamento.dataFim == lan.dataInicio) and (lan.dataInicio != lan.dataFim)):
+                tempoInicio = str(lan.dataInicio) + " " + str(lan.horaInicio)
+                tempoFim = str(lan.dataInicio) + " 23:59:59"
+                seg = (datetime.datetime.strptime(tempoFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+                    tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+                horasLan = seg / 3600;
+                quantHorasDataFim = quantHorasDataFim + horasLan
+
+            if ((lancamento.dataFim == lan.dataFim) and (lan.dataInicio != lan.dataFim)):
+                tempoInicio = str(lan.dataFim) + " 00:00:00"
+                tempoFim = str(lan.dataFim) + " " + str(lan.horaFim)
+                seg = (datetime.datetime.strptime(tempoFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+                    tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+                horasLan = seg / 3600;
+                quantHorasDataFim = quantHorasDataFim + horasLan
+
+        if ((quantInicio + quantHorasDataInicio) > 10):
+            dif = 10 - quantHorasDataInicio
+            podeRegistrar = False
+            flash('Você só pode trabalhar mais ' + str(dif) + ' horas no dia ' + str(lancamento.dataInicio))
+        if ((quantFim + quantHorasDataFim) > 10):
+            dif = 10 - quantHorasDataFim
+            podeRegistrar = False
+            flash('Você só pode trabalhar mais ' + str(dif) + ' horas no dia ' + str(lancamento.dataFim))
+        if(not podeRegistrar):
+            return render_template('/talks/lancamentoCadastrar.html', form=form)
         db.session.add(lancamento)
         db.session.commit()
         flash('Sucesso lancamento salvo')
@@ -440,6 +542,93 @@ def lancamentoEditar(id):
     form.atividade_id.choices = [(atividade.id, atividade.descricao) for atividade in Atividade.query.all()]
     if form.validate_on_submit():
         form.to_model(lancamento)
+        # Calcula quantidade de dias trabalhados
+        datahoraInicio = str(lancamento.dataInicio) + " " + str(lancamento.horaInicio)
+        datahoraFim = str(lancamento.dataFim) + " " + str(lancamento.horaFim)
+        segundos = (datetime.datetime.strptime(datahoraFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+        datahoraInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+        horas = segundos / 3600;
+        lancamento.horasTrabalhadas = horas;
+        if (lancamento.horasTrabalhadas > 10):
+            flash('Não pode trabalhar mais de 10 horas.')
+            return render_template('/talks/lancamentoEditar.html', form=form)
+        lancamentos = Lancamento.query.filter_by(funcionario_id=lancamento.funcionario_id)
+        quantHorasDataInicio = 0
+        quantHorasDataFim = 0
+        podeRegistrar = True
+        if (lancamento.dataInicio == lancamento.dataFim):
+            tempoInicio = str(lancamento.dataInicio) + " " + str(lancamento.horaInicio)
+            tempoFim = str(lancamento.dataFim) + " " + str(lancamento.horaFim)
+            seg = (datetime.datetime.strptime(tempoFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+                tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+            horasLan = seg / 3600;
+            quantInicio = horasLan
+            quantFim = horasLan
+        else:
+            tempoInicio = str(lancamento.dataInicio) + " " + str(lancamento.horaInicio)
+            tempoFim = str(lancamento.dataInicio) + " 23:59:59"
+            seg = (datetime.datetime.strptime(tempoFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+                tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+            horasLan = seg / 3600;
+            quantInicio = horasLan
+
+            tempoInicio = str(lancamento.dataFim) + " " + " 00:00:00"
+            tempoFim = str(lancamento.dataFim) + " " + str(lancamento.horaFim)
+            seg = (datetime.datetime.strptime(tempoFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+                tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+            horasLan = seg / 3600;
+            quantFim = horasLan
+
+        for lan in lancamentos:
+            if(lan.id != lancamento.id):
+                if ((lancamento.dataInicio == lan.dataInicio) and (lan.dataInicio == lan.dataFim)):
+                    quantHorasDataInicio = quantHorasDataInicio + lan.horasTrabalhadas
+
+                if ((lancamento.dataFim == lan.dataInicio) and (lan.dataInicio == lan.dataFim)):
+                    quantHorasDataFim = quantHorasDataFim + lan.horasTrabalhadas
+
+                if ((lancamento.dataInicio == lan.dataInicio) and (lan.dataInicio != lan.dataFim)):
+                    tempoInicio = str(lan.dataInicio) + " " + str(lan.horaInicio)
+                    tempoFim = str(lan.dataInicio) + " 23:59:59"
+                    seg = (datetime.datetime.strptime(tempoFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+                        tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+                    horasLan = seg / 3600;
+                    quantHorasDataInicio = quantHorasDataInicio + horasLan
+
+                if ((lancamento.dataInicio == lan.dataFim) and (lan.dataInicio != lan.dataFim)):
+                    tempoInicio = str(lan.dataFim) + " 00:00:00"
+                    tempoFim = str(lan.dataFim) + " " + str(lan.horaFim)
+                    seg = (datetime.datetime.strptime(tempoFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+                        tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+                    horasLan = seg / 3600;
+                    quantHorasDataInicio = quantHorasDataInicio + horasLan
+
+                if ((lancamento.dataFim == lan.dataInicio) and (lan.dataInicio != lan.dataFim)):
+                    tempoInicio = str(lan.dataInicio) + " " + str(lan.horaInicio)
+                    tempoFim = str(lan.dataInicio) + " 23:59:59"
+                    seg = (datetime.datetime.strptime(tempoFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+                        tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+                    horasLan = seg / 3600;
+                    quantHorasDataFim = quantHorasDataFim + horasLan
+
+                if ((lancamento.dataFim == lan.dataFim) and (lan.dataInicio != lan.dataFim)):
+                    tempoInicio = str(lan.dataFim) + " 00:00:00"
+                    tempoFim = str(lan.dataFim) + " " + str(lan.horaFim)
+                    seg = (datetime.datetime.strptime(tempoFim, '%Y-%m-%d %H:%M:%S') - datetime.datetime.strptime(
+                        tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
+                    horasLan = seg / 3600;
+                    quantHorasDataFim = quantHorasDataFim + horasLan
+
+        if ((quantInicio + quantHorasDataInicio) > 10):
+            dif = 10 - quantHorasDataInicio
+            podeRegistrar = False
+            flash('Você só pode trabalhar mais ' + str(dif) + ' horas no dia ' + str(lancamento.dataInicio))
+        if ((quantFim + quantHorasDataFim) > 10):
+            dif = 10 - quantHorasDataFim
+            podeRegistrar = False
+            flash('Você só pode trabalhar mais ' + str(dif) + ' horas no dia ' + str(lancamento.dataFim))
+        if (not podeRegistrar):
+            return render_template('/talks/lancamentoEditar.html', form=form)
         db.session.commit()
         flash('Sucesso lancamento salvo.')
         return redirect(url_for('talks.lancamento'))
