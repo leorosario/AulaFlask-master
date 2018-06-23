@@ -1,13 +1,17 @@
 {% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
-<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 100px;border-radius: 10px;">
+<div class="teste">
     <div class="page-header">
-        <h1 style="text-align: center;">Clientes</h1>
+        <h1 class="text-center">Clientes</h1>
+    </div>
+    <div class="text-center">
+        <label>Pesquisar:</label>
+        <input id="pesquisar" name="pesquisar" type="search" placeholder="Digite o cpf/cnpj"/>
     </div>
     <a href="/admin/clientes/cadastrar">
-        <button class="btn btn-success btn-lg" style="float: right;">
+        <button class="btn btn-success btn-lg pull-right">
             <i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Cadastrar</button>
     </a>
-    <table class="table">
+    <table id="listaClientes" class="table">
         <tbody>
             <tr>
                 <td>
@@ -40,5 +44,17 @@
             {% endfor %}
         </tbody>
     </table>
+   <script>
+    var clientes = [];
+    var i = 0;
+    {% for cliente in clientes %}
+        clientes[i] = {id: "", cpfcnpj: "", nome: ""};
+        clientes[i].id = {{cliente.id}};
+        clientes[i].cpfcnpj = {{cliente.cpfcnpj}};
+        clientes[i].nome = "{{cliente.nome}}";
+        i++;
+    {% endfor %}
+    </script>
+    <script src="{{url_for('static', filename='pesquisaCliente.js')}}"></script>
     {% endblock %}
 </div>

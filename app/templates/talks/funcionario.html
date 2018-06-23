@@ -1,19 +1,23 @@
-{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
-<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 100px;border-radius: 10px;">
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %}{% block title %}Funcionarios{% endblock %} {% block page_content %}
+<div class="teste">
     <div class="page-header">
-        <h1 style="text-align: center;">Funcionários</h1>
+        <h1 class="text-center">Funcionários</h1>
+    </div>
+    <div class="text-center">
+        <label>Pesquisar:</label>
+        <input id="pesquisar" name="pesquisar" type="search" placeholder="Digite o codigo"/>
     </div>
     <a href="/admin/funcionario/cadastrar">
-        <button class="btn btn-success btn-lg" style="float: right;">
+        <button class="btn btn-success btn-lg pull-right">
             <i class="glyphicon glyphicon-user"></i>&nbsp;Cadastrar</button>
     </a>
     <br>
     <br>
-    <table class="table">
+    <table id="listaFuncionarios" class="table">
         <tbody>
             <tr>
                 <th>
-                    <h3>Matricula</h3>
+                    <h3>Matrícula</h3>
                 </th>
                 <th>
                     <h3>Nome</h3>
@@ -44,4 +48,15 @@
         </tbody>
     </table>
 </div>
+<script>
+    var funcionarios = [];
+    var i = 0;
+    {% for funcionario in funcionarios %}
+        funcionarios[i] = {id: "", nome: "", matricula: ""};
+        funcionarios[i].id = {{funcionario.id}};
+        funcionarios[i].matricula = "{{funcionario.matricula}}";
+        i++;
+    {% endfor %}
+</script>
+<script src="{{url_for('static', filename='pesquisaFuncionario.js')}}"></script>
 {% endblock %}

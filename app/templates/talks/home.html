@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block page_content %} {% if current_user.is_authenticated %}
-<div class="container" style="margin-top:100px;">
-    <div class="row" style="border: 1px solid black;">
+<div class="container">
+    <div class="row" style="border: 1px solid black;border-radius: 10px;">
         <div class="col-xs-11 col-sm-3" style="min-height: 150px;">
             {% if current_user.is_admin %}
             <h2>Cadastro</h2>
@@ -59,7 +59,7 @@
     <br>
     <br>
     <div style="background: rgb(245, 241, 241);text-align: center;border-radius: 15px;padding: 20px;margin-top:30px;">
-        <h1>Hello!</h1>
+        <h1>Sistema para controle de horas trabalhadas</h1>
         <h2>Por favor, efetue o Login para ver esta página.</h2>
     </div>
 </div>

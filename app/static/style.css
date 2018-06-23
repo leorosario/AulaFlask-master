@@ -1,0 +1,32 @@
+.teste{
+    background:rgba(248, 247, 247, 0.596);
+    padding: 30px;
+    margin-top: 50px;
+    border-radius: 10px;
+}
+
+.ta{
+    text-align: center;
+}
+
+.fr{
+    float: right;
+}
+
+.notAdmin{
+    background: rgba(248, 247, 247, 0.596);
+    padding: 30px;
+    margin-top: 100px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.nav-hover:hover{
+    background: rgb(206, 202, 202);
+}
+
+img{
+    width: 150px;
+    height: 150px;
+    margin-left: 130px;
+}

@@ -4,33 +4,33 @@ $('#pesquisar').keyup(function(){
     console.log(pesquisa);
     var achouAlgo = false;
     console.log(pesquisa.length);
-    for(var j = 0; j < projetos.length; j++){
-        if(pesquisa == projetos[j].id){
+    for(var j = 0; j < vinculacoes.length; j++){
+        if(pesquisa == vinculacoes[j].id){
             achouAlgo = true;
-            $("#listaProjetos").html(
+            $("#listaVinculacoes").html(
                 "<tbody>"+
                     "<tr>"+
-                        "<td><h3>Código</h3></td>"+
-                        "<td><h3>Nome Projeto</h3></td>"+
-                        "<td><h3>Cliente</h3></td>"+
-                        "<td><h3>Descrição</h3></td>"+
+                        "<td><h3>Cod FuncionarioXProjeto</h3></td>"+
+                        "<td><h3>Funcionario</h3></td>"+
+                        "<td><h3>Projeto</h3></td>"+
+                        "<td><h3>Coordenador</h3></td>"+
                         "<th></th>"+
                     "</tr>"+
                     "<tr>"+
-                        "<td>"+projetos[j].id+"</td>"+
-                        "<td>"+projetos[j].nome+"</td>"+
-                        "<td>"+projetos[j].cliente+"</td>"+
-                        "<td>"+projetos[j].descricao+"</td>"+
+                        "<td>"+vinculacoes[j].id+"</td>"+
+                        "<td>"+vinculacoes[j].funcionario+"</td>"+
+                        "<td>"+vinculacoes[j].projeto+"</td>"+
+                        "<td>"+vinculacoes[j].coordenador+"</td>"+
                         "<td>"+
-                        "<a href='/admin/projeto/editar/"+projetos[j].id+"'>"+
+                        "<a href='/admin/vinculacao/editar/"+vinculacoes[j].id+"'>"+
                         "<button class='btn btn-primary'>"+
                         "<i class='glyphicon glyphicon-pencil'></i> Editar</button>"+
                         "</a>"+
-                        "<a href='/admin/projeto/detalhes/"+projetos[j].id+"'>"+
+                        "<a href='/admin/vinculacao/detalhes/"+vinculacoes[j].id+"'>"+
                         "<button class='btn btn-info'>"+
                         "<i class='glyphicon glyphicon-info-sign'></i> Detalhes</button>"+
                         "</a>"+
-                        "<a href='/admin/projeto/deletar/"+projetos[j].id+"'>"+
+                        "<a href='/admin/vinculacao/deletar/"+vinculacoes[j].id+"'>"+
                         "<button class='btn btn-danger'>"+
                         "<i class='glyphicon glyphicon-trash'></i> Deletar</button>"+
                         "</a>"+
@@ -43,25 +43,25 @@ $('#pesquisar').keyup(function(){
 
     if(pesquisa.length == 0){
         var lista = "";
-        for(var j = 0; j < projetos.length; j++){
+        for(var j = 0; j < vinculacoes.length; j++){
             console.log('append');
             achouAlgo = true;
             lista = lista +
             "<tr>"+
-                "<td>"+projetos[j].id+"</td>"+
-                "<td>"+projetos[j].nome+"</td>"+
-                "<td>"+projetos[j].cliente+"</td>"+
-                "<td>"+projetos[j].descricao+"</td>"+
+                "<td>"+vinculacoes[j].id+"</td>"+
+                "<td>"+vinculacoes[j].funcionario+"</td>"+
+                "<td>"+vinculacoes[j].projeto+"</td>"+
+                "<td>"+vinculacoes[j].coordenador+"</td>"+
                 "<td>"+
-                "<a href='/admin/projeto/editar/"+projetos[j].id+"'>"+
+                "<a href='/admin/vinculacao/editar/"+vinculacoes[j].id+"'>"+
                 "<button class='btn btn-primary'>"+
                 "<i class='glyphicon glyphicon-pencil'></i> Editar</button>"+
                 "</a>"+
-                "<a href='/admin/projeto/detalhes/"+projetos[j].id+"'>"+
+                "<a href='/admin/vinculacao/detalhes/"+vinculacoes[j].id+"'>"+
                 "<button class='btn btn-info'>"+
                 "<i class='glyphicon glyphicon-info-sign'></i> Detalhes</button>"+
                 "</a>"+
-                "<a href='/admin/projeto/deletar/"+projetos[j].id+"'>"+
+                "<a href='/admin/vinculacao/deletar/"+vinculacoes[j].id+"'>"+
                 "<button class='btn btn-danger'>"+
                 "<i class='glyphicon glyphicon-trash'></i> Deletar</button>"+
                 "</a>"+
@@ -69,13 +69,13 @@ $('#pesquisar').keyup(function(){
             "</tr>";
         }
         console.log(lista);
-        $("#listaProjetos").html(
+        $("#listaVinculacoes").html(
         "<tbody>"+
             "<tr>"+
-                "<td><h3>Código</h3></td>"+
-                "<td><h3>Nome Projeto</h3></td>"+
-                "<td><h3>Cliente</h3></td>"+
-                "<td><h3>Descrição</h3></td>"+
+                "<td><h3>Cod FuncionarioXProjeto</h3></td>"+
+                "<td><h3>Funcionario</h3></td>"+
+                "<td><h3>Projeto</h3></td>"+
+                "<td><h3>Coordenador</h3></td>"+
                 "<th></th>"+
             "</tr>"+
         lista+"</tbody>");
@@ -83,6 +83,6 @@ $('#pesquisar').keyup(function(){
 
     if(!achouAlgo){
         console.log(achouAlgo);
-        $("#listaProjetos").html("<tbody></tbody>");
+        $("#listaVinculacoes").html("<tbody></tbody>");
     }
 });

@@ -1,25 +1,25 @@
 {% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
-<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 50px;border-radius: 10px;"></div>
-<div class="page-header">
-    <h1 style="text-align: center;">Detalhes Vinculaçao</h1>
-    <a href="/admin/vinculacao">
-        <button type="button" class="btn btn-primary btn-lg">
-            <i class="glyphicon glyphicon-chevron-left"></i>Voltar</button>
+<div class="teste">
+    <div class="page-header">
+        <h1 class="text-center">Detalhes Vinculaçao</h1>
+        <a href="/admin/vinculacao">
+            <button type="button" class="btn btn-primary btn-lg">
+                <i class="glyphicon glyphicon-chevron-left"></i>Voltar</button>
+        </a>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>Cod FuncionarioXProjeto</dt>
+        <dd>{{vinculacao.id}}</dd>
+        <dt>Projeto</dt>
+        <dd>{{vinculacao.projeto.nome}}</dd>
+        <dt>Funcionario</dt>
+        <dd>{{vinculacao.funcionario.nome}}</dd>
+        <dt>Coordenador</dt>
+        <dd>{{vinculacao.coordenador}}</dd>
+    </dl>
+    <a href="/admin/vinculacao/editar/{{ vinculacao.id }}">
+        <button class="btn btn-info">
+            <i class="glyphicon glyphicon-pencil"></i>&nbsp;Editar</button>
     </a>
-</div>
-<dl class="dl-horizontal">
-    <dt>Cod FuncionarioXProjeto</dt>
-    <dd>{{vinculacao.id}}</dd>
-    <dt>Projeto</dt>
-    <dd>{{vinculacao.projeto.nome}}</dd>
-    <dt>Funcionario</dt>
-    <dd>{{vinculacao.funcionario.nome}}</dd>
-    <dt>Coordenador</dt>
-    <dd>{{vinculacao.coordenador}}</dd>
-</dl>
-<a href="/admin/vinculacao/editar/{{ vinculacao.id }}">
-    <button class="btn btn-info">
-        <i class="glyphicon glyphicon-pencil"></i>&nbsp;Editar</button>
-</a>
 </div>
 {% endblock %}

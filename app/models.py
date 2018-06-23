@@ -82,6 +82,7 @@ class Lancamento(db.Model):
     horaInicio = db.Column(db.Time, nullable=False)
     dataFim = db.Column(db.Date, nullable=False)
     horaFim = db.Column(db.Time, nullable=False)
+    horasTrabalhadas = db.Column(db.Integer, nullable=False);
     descricao = db.Column(db.String(300), nullable=False)
 
 @login_manager.user_loader

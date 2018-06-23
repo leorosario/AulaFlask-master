@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 2906797888e1
+Revision ID: 86ab01fe70dc
 Revises: 
-Create Date: 2018-06-21 14:20:24.143261
+Create Date: 2018-06-22 21:35:01.162235
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '2906797888e1'
+revision = '86ab01fe70dc'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -42,6 +42,21 @@ def upgrade():
     )
     op.create_index(op.f('ix_funcionario_email'), 'funcionario', ['email'], unique=True)
     op.create_index(op.f('ix_funcionario_nome'), 'funcionario', ['nome'], unique=True)
+    op.create_table('users',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('email', sa.String(length=64), nullable=False),
+    sa.Column('username', sa.String(length=64), nullable=False),
+    sa.Column('is_admin', sa.Boolean(), nullable=True),
+    sa.Column('password_hash', sa.String(length=256), nullable=True),
+    sa.Column('name', sa.String(length=64), nullable=True),
+    sa.Column('location', sa.String(length=64), nullable=True),
+    sa.Column('bio', sa.Text(), nullable=True),
+    sa.Column('member_since', sa.DateTime(), nullable=True),
+    sa.Column('avatar_hash', sa.String(length=256), nullable=True),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
+    op.create_index(op.f('ix_users_username'), 'users', ['username'], unique=True)
     op.create_table('projeto',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('nome', sa.String(length=100), nullable=False),
@@ -68,6 +83,7 @@ def upgrade():
     sa.Column('horaInicio', sa.Time(), nullable=False),
     sa.Column('dataFim', sa.Date(), nullable=False),
     sa.Column('horaFim', sa.Time(), nullable=False),
+    sa.Column('horasTrabalhadas', sa.Integer(), nullable=False),
     sa.Column('descricao', sa.String(length=300), nullable=False),
     sa.ForeignKeyConstraint(['atividade_id'], ['atividade.id'], ),
     sa.ForeignKeyConstraint(['funcionario_id'], ['funcionario.id'], ),
@@ -82,6 +98,9 @@ def downgrade():
     op.drop_table('lancamentos')
     op.drop_table('funcionarioProjeto')
     op.drop_table('projeto')
+    op.drop_index(op.f('ix_users_username'), table_name='users')
+    op.drop_index(op.f('ix_users_email'), table_name='users')
+    op.drop_table('users')
     op.drop_index(op.f('ix_funcionario_nome'), table_name='funcionario')
     op.drop_index(op.f('ix_funcionario_email'), table_name='funcionario')
     op.drop_table('funcionario')

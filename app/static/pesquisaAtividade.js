@@ -4,33 +4,29 @@ $('#pesquisar').keyup(function(){
     console.log(pesquisa);
     var achouAlgo = false;
     console.log(pesquisa.length);
-    for(var j = 0; j < projetos.length; j++){
-        if(pesquisa == projetos[j].id){
+    for(var j = 0; j < atividades.length; j++){
+        if(pesquisa == atividades[j].id){
             achouAlgo = true;
-            $("#listaProjetos").html(
+            $("#listaAtividades").html(
                 "<tbody>"+
                     "<tr>"+
-                        "<td><h3>Código</h3></td>"+
-                        "<td><h3>Nome Projeto</h3></td>"+
-                        "<td><h3>Cliente</h3></td>"+
+                        "<td><h3>Cod Atividade</h3></td>"+
                         "<td><h3>Descrição</h3></td>"+
                         "<th></th>"+
                     "</tr>"+
                     "<tr>"+
-                        "<td>"+projetos[j].id+"</td>"+
-                        "<td>"+projetos[j].nome+"</td>"+
-                        "<td>"+projetos[j].cliente+"</td>"+
-                        "<td>"+projetos[j].descricao+"</td>"+
+                        "<td>"+atividades[j].id+"</td>"+
+                        "<td>"+atividades[j].descricao+"</td>"+
                         "<td>"+
-                        "<a href='/admin/projeto/editar/"+projetos[j].id+"'>"+
+                        "<a href='/admin/atividades/editar/"+atividades[j].id+"'>"+
                         "<button class='btn btn-primary'>"+
                         "<i class='glyphicon glyphicon-pencil'></i> Editar</button>"+
                         "</a>"+
-                        "<a href='/admin/projeto/detalhes/"+projetos[j].id+"'>"+
+                        "<a href='/admin/atividades/detalhes/"+atividades[j].id+"'>"+
                         "<button class='btn btn-info'>"+
                         "<i class='glyphicon glyphicon-info-sign'></i> Detalhes</button>"+
                         "</a>"+
-                        "<a href='/admin/projeto/deletar/"+projetos[j].id+"'>"+
+                        "<a href='/admin/atividades/deletar/"+atividades[j].id+"'>"+
                         "<button class='btn btn-danger'>"+
                         "<i class='glyphicon glyphicon-trash'></i> Deletar</button>"+
                         "</a>"+
@@ -43,25 +39,23 @@ $('#pesquisar').keyup(function(){
 
     if(pesquisa.length == 0){
         var lista = "";
-        for(var j = 0; j < projetos.length; j++){
+        for(var j = 0; j < atividades.length; j++){
             console.log('append');
             achouAlgo = true;
             lista = lista +
             "<tr>"+
-                "<td>"+projetos[j].id+"</td>"+
-                "<td>"+projetos[j].nome+"</td>"+
-                "<td>"+projetos[j].cliente+"</td>"+
-                "<td>"+projetos[j].descricao+"</td>"+
+                "<td>"+atividades[j].id+"</td>"+
+                "<td>"+atividades[j].descricao+"</td>"+
                 "<td>"+
-                "<a href='/admin/projeto/editar/"+projetos[j].id+"'>"+
+                "<a href='/admin/atividades/editar/"+atividades[j].id+"'>"+
                 "<button class='btn btn-primary'>"+
                 "<i class='glyphicon glyphicon-pencil'></i> Editar</button>"+
                 "</a>"+
-                "<a href='/admin/projeto/detalhes/"+projetos[j].id+"'>"+
+                "<a href='/admin/atividades/detalhes/"+atividades[j].id+"'>"+
                 "<button class='btn btn-info'>"+
                 "<i class='glyphicon glyphicon-info-sign'></i> Detalhes</button>"+
                 "</a>"+
-                "<a href='/admin/projeto/deletar/"+projetos[j].id+"'>"+
+                "<a href='/admin/atividades/deletar/"+atividades[j].id+"'>"+
                 "<button class='btn btn-danger'>"+
                 "<i class='glyphicon glyphicon-trash'></i> Deletar</button>"+
                 "</a>"+
@@ -69,12 +63,10 @@ $('#pesquisar').keyup(function(){
             "</tr>";
         }
         console.log(lista);
-        $("#listaProjetos").html(
+        $("#listaAtividades").html(
         "<tbody>"+
             "<tr>"+
-                "<td><h3>Código</h3></td>"+
-                "<td><h3>Nome Projeto</h3></td>"+
-                "<td><h3>Cliente</h3></td>"+
+                "<td><h3>Cod Atividade</h3></td>"+
                 "<td><h3>Descrição</h3></td>"+
                 "<th></th>"+
             "</tr>"+
@@ -83,6 +75,6 @@ $('#pesquisar').keyup(function(){
 
     if(!achouAlgo){
         console.log(achouAlgo);
-        $("#listaProjetos").html("<tbody></tbody>");
+        $("#listaAtividades").html("<tbody></tbody>");
     }
 });

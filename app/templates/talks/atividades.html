@@ -1,17 +1,21 @@
 {% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
-<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 50px;border-radius: 10px;">
+<div class="teste">
     <div class="page-header">
-        <h1 style="text-align: center;">Atividades</h1>
+        <h1 class="text-center">Atividades</h1>
+    </div>
+    <div class="text-center">
+        <label>Pesquisar:</label>
+        <input id="pesquisar" name="pesquisar" type="search" placeholder="Digite o codigo"/>
     </div>
     <a href="/admin/atividades/cadastrar">
-        <button class="btn btn-success btn-lg" style="float:right;">
+        <button class="btn btn-success btn-lg pull-right">
             <i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Cadastrar</button>
     </a>
-    <table class="table">
+    <table id="listaAtividades" class="table">
         <tbody>
             <tr>
-                <td>Cod Atividade</td>
-                <td>Descricao</td>
+                <td><h3>Cod Atividade</h3></td>
+                <td><h3>Descrição</h3></td>
                 <th></th>
             </tr>
             {% for atividade in atividades %}
@@ -36,5 +40,16 @@
             {% endfor %}
         </tbody>
     </table>
+    <script>
+    var atividades = [];
+    var i = 0;
+    {% for atividade in atividades %}
+        atividades[i] = {id: "", nome: ""};
+        atividades[i].id = {{atividade.id}};
+        atividades[i].descricao = "{{atividade.descricao}}";
+        i++;
+    {% endfor %}
+    </script>
+    <script src="{{url_for('static', filename='pesquisaAtividade.js')}}"></script>
     {% endblock %}
 </div>

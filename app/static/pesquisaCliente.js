@@ -4,33 +4,29 @@ $('#pesquisar').keyup(function(){
     console.log(pesquisa);
     var achouAlgo = false;
     console.log(pesquisa.length);
-    for(var j = 0; j < projetos.length; j++){
-        if(pesquisa == projetos[j].id){
+    for(var j = 0; j < clientes.length; j++){
+        if(pesquisa == clientes[j].cpfcnpj){
             achouAlgo = true;
-            $("#listaProjetos").html(
+            $("#listaClientes").html(
                 "<tbody>"+
                     "<tr>"+
-                        "<td><h3>Código</h3></td>"+
-                        "<td><h3>Nome Projeto</h3></td>"+
-                        "<td><h3>Cliente</h3></td>"+
-                        "<td><h3>Descrição</h3></td>"+
+                        "<td><h3>CPF/CNPJ</h3></td>"+
+                        "<td><h3>Nome</h3></td>"+
                         "<th></th>"+
                     "</tr>"+
                     "<tr>"+
-                        "<td>"+projetos[j].id+"</td>"+
-                        "<td>"+projetos[j].nome+"</td>"+
-                        "<td>"+projetos[j].cliente+"</td>"+
-                        "<td>"+projetos[j].descricao+"</td>"+
+                        "<td>"+clientes[j].cpfcnpj+"</td>"+
+                        "<td>"+clientes[j].nome+"</td>"+
                         "<td>"+
-                        "<a href='/admin/projeto/editar/"+projetos[j].id+"'>"+
+                        "<a href='/admin/Cliente/editar/"+clientes[j].id+"'>"+
                         "<button class='btn btn-primary'>"+
                         "<i class='glyphicon glyphicon-pencil'></i> Editar</button>"+
                         "</a>"+
-                        "<a href='/admin/projeto/detalhes/"+projetos[j].id+"'>"+
+                        "<a href='/admin/Cliente/detalhes/"+clientes[j].id+"'>"+
                         "<button class='btn btn-info'>"+
                         "<i class='glyphicon glyphicon-info-sign'></i> Detalhes</button>"+
                         "</a>"+
-                        "<a href='/admin/projeto/deletar/"+projetos[j].id+"'>"+
+                        "<a href='/admin/Cliente/deletar/"+clientes[j].id+"'>"+
                         "<button class='btn btn-danger'>"+
                         "<i class='glyphicon glyphicon-trash'></i> Deletar</button>"+
                         "</a>"+
@@ -43,25 +39,23 @@ $('#pesquisar').keyup(function(){
 
     if(pesquisa.length == 0){
         var lista = "";
-        for(var j = 0; j < projetos.length; j++){
+        for(var j = 0; j < clientes.length; j++){
             console.log('append');
             achouAlgo = true;
             lista = lista +
             "<tr>"+
-                "<td>"+projetos[j].id+"</td>"+
-                "<td>"+projetos[j].nome+"</td>"+
-                "<td>"+projetos[j].cliente+"</td>"+
-                "<td>"+projetos[j].descricao+"</td>"+
+                "<td>"+clientes[j].cpfcnpj+"</td>"+
+                "<td>"+clientes[j].nome+"</td>"+
                 "<td>"+
-                "<a href='/admin/projeto/editar/"+projetos[j].id+"'>"+
+                "<a href='/admin/Cliente/editar/"+clientes[j].id+"'>"+
                 "<button class='btn btn-primary'>"+
                 "<i class='glyphicon glyphicon-pencil'></i> Editar</button>"+
                 "</a>"+
-                "<a href='/admin/projeto/detalhes/"+projetos[j].id+"'>"+
+                "<a href='/admin/Cliente/detalhes/"+clientes[j].id+"'>"+
                 "<button class='btn btn-info'>"+
                 "<i class='glyphicon glyphicon-info-sign'></i> Detalhes</button>"+
                 "</a>"+
-                "<a href='/admin/projeto/deletar/"+projetos[j].id+"'>"+
+                "<a href='/admin/Cliente/deletar/"+clientes[j].id+"'>"+
                 "<button class='btn btn-danger'>"+
                 "<i class='glyphicon glyphicon-trash'></i> Deletar</button>"+
                 "</a>"+
@@ -69,13 +63,11 @@ $('#pesquisar').keyup(function(){
             "</tr>";
         }
         console.log(lista);
-        $("#listaProjetos").html(
+        $("#listaClientes").html(
         "<tbody>"+
             "<tr>"+
-                "<td><h3>Código</h3></td>"+
-                "<td><h3>Nome Projeto</h3></td>"+
-                "<td><h3>Cliente</h3></td>"+
-                "<td><h3>Descrição</h3></td>"+
+                "<td><h3>CPF/CNPJ</h3></td>"+
+                "<td><h3>Nome</h3></td>"+
                 "<th></th>"+
             "</tr>"+
         lista+"</tbody>");
@@ -83,6 +75,6 @@ $('#pesquisar').keyup(function(){
 
     if(!achouAlgo){
         console.log(achouAlgo);
-        $("#listaProjetos").html("<tbody></tbody>");
+        $("#listaClientes").html("<tbody></tbody>");
     }
 });

@@ -1,13 +1,17 @@
 {% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block page_content %}
-<div style="background: rgba(248, 247, 247, 0.596);padding: 30px;margin-top: 50px;border-radius: 10px;">
+<div class="teste">
     <div class="page-header">
-        <h1 style="text-align: center;">Lancamentos</h1>
+        <h1 class="text-center">Lancamentos</h1>
+    </div>
+    <div class="text-center">
+        <label>Pesquisar:</label>
+        <input id="pesquisar" name="pesquisar" type="search" placeholder="Digite o codigo"/>
     </div>
     <a href="/lancamento/cadastrar">
-        <button class="btn btn-success btn-lg" style="float:right;">
+        <button class="btn btn-success btn-lg pull-right" >
             <i class="glyphicon glyphicon-plus-sign"></i>&nbsp;Cadastrar</button>
     </a>
-    <table class="table">
+    <table id="listaLancamentos" class="table">
         <tbody>
             <tr>
                 <td>
@@ -49,4 +53,17 @@
         </tbody>
     </table>
 </div>
+<script>
+    var lancamentos = [];
+    var i = 0;
+    {% for lancamento in lancamentos %}
+        lancamentos[i] = {id: "", projeto: "", funcionario: "", projeto: "", coordenador: ""};
+        lancamentos[i].id = {{lancamento.id}};
+        lancamentos[i].funcionario = "{{lancamento.funcionario.nome}}";
+        lancamentos[i].projeto = "{{lancamento.projeto.nome}}";
+        lancamentos[i].descricao = "{{lancamento.descricao}}";
+        i++;
+    {% endfor %}
+</script>
+<script src="{{url_for('static', filename='pesquisaLancamento.js')}}"></script>
 {% endblock %}
