@@ -454,6 +454,7 @@ def lancamentoCadastrar():
         quantHorasDataInicio = 0
         quantHorasDataFim = 0
         podeRegistrar = True
+        # calcula quantidade de tempo trabalhado no dia lancado
         if(lancamento.dataInicio == lancamento.dataFim):
             tempoInicio = str(lancamento.dataInicio) + " " + str(lancamento.horaInicio)
             tempoFim = str(lancamento.dataFim) + " " + str(lancamento.horaFim)
@@ -477,6 +478,7 @@ def lancamentoCadastrar():
             horasLan = seg / 3600;
             quantFim = horasLan
 
+        # Verifica se já foi trabalhado mais que o permitido no dia lancado.
         for lan in lancamentos:
             if((lancamento.dataInicio == lan.dataInicio) and (lan.dataInicio == lan.dataFim)):
                 quantHorasDataInicio = quantHorasDataInicio + lan.horasTrabalhadas
@@ -515,6 +517,20 @@ def lancamentoCadastrar():
                     tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
                 horasLan = seg / 3600;
                 quantHorasDataFim = quantHorasDataFim + horasLan
+
+            #Verifica se já trabalhou durante o horario que esta sendo registrado
+            data1 = str(lancamento.dataInicio) + " " + str(lancamento.horaInicio)
+            data2= str(lancamento.dataFim) + " " + str(lancamento.horaFim)
+            datalan1 = str(lan.dataInicio) + " " + str(lan.horaInicio)
+            datalan2 = str(lan.dataFim) + " " + str(lan.horaFim)
+            dt1 = datetime.datetime.strptime(data1, '%Y-%m-%d %H:%M:%S')
+            dt2 = datetime.datetime.strptime(data2, '%Y-%m-%d %H:%M:%S')
+            dtlan1 = datetime.datetime.strptime(datalan1, '%Y-%m-%d %H:%M:%S')
+            dtlan2 = datetime.datetime.strptime(datalan2, '%Y-%m-%d %H:%M:%S')
+
+            if(((dt1 >= dtlan1) and (dt1 <= dtlan2)) or ((dt2 >= dtlan1) and (dt2 <= dtlan2))):
+                flash('Você já lançou hora dentro deste intervalo de tempo')
+                podeRegistrar = False
 
         if ((quantInicio + quantHorasDataInicio) > 10):
             dif = 10 - quantHorasDataInicio
@@ -618,6 +634,20 @@ def lancamentoEditar(id):
                         tempoInicio, '%Y-%m-%d %H:%M:%S')).total_seconds()
                     horasLan = seg / 3600;
                     quantHorasDataFim = quantHorasDataFim + horasLan
+
+                # Verifica se já trabalhou durante o horario que esta sendo registrado
+                data1 = str(lancamento.dataInicio) + " " + str(lancamento.horaInicio)
+                data2 = str(lancamento.dataFim) + " " + str(lancamento.horaFim)
+                datalan1 = str(lan.dataInicio) + " " + str(lan.horaInicio)
+                datalan2 = str(lan.dataFim) + " " + str(lan.horaFim)
+                dt1 = datetime.datetime.strptime(data1, '%Y-%m-%d %H:%M:%S')
+                dt2 = datetime.datetime.strptime(data2, '%Y-%m-%d %H:%M:%S')
+                dtlan1 = datetime.datetime.strptime(datalan1, '%Y-%m-%d %H:%M:%S')
+                dtlan2 = datetime.datetime.strptime(datalan2, '%Y-%m-%d %H:%M:%S')
+
+                if (((dt1 >= dtlan1) and (dt1 <= dtlan2)) or ((dt2 >= dtlan1) and (dt2 <= dtlan2))):
+                    flash('Você já lançou hora dentro deste intervalo de tempo')
+                    podeRegistrar = False
 
         if ((quantInicio + quantHorasDataInicio) > 10):
             dif = 10 - quantHorasDataInicio
