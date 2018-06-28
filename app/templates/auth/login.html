@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Login{% endblock %}
 
 
 {% block login %}
-<img src="../../static/img/relogio.jpg">
+<img src="../../static/img/relogio-homer.gif">
 <h1 class="text-center">Login</h1>
 {{ wtf.quick_form(form) }}
 {% endblock %}
